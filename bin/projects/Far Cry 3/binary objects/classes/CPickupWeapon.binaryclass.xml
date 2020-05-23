@@ -1,0 +1,46 @@
+<class name="CPickupWeapon">
+    <field name="hidHasAliasName" type="Boolean" />
+    <field name="bEnable" type="Boolean" />
+    <field name="fRespawnTime" type="Float32" />
+    <field name="bCustomBoundingBox" type="Boolean" />
+    <field name="vectorBoundingBoxSize" type="Vector3" />
+    <field name="vectorBoundingBoxOffset" type="Vector3" />
+    <field name="bAffectedLightPickup" type="Boolean" />
+    <field name="bPickable" type="Boolean" />
+    <field name="sUsageString" type="String" />
+    <field name="locidDisplayString" type="Int32" />
+    <field name="fileGeometryPreload" type="Boolean" />
+    <field name="Priority" type="Int32" />
+    <field name="bCanBeScouted" type="Boolean" />
+    <field name="bDisableOnPick" type="Boolean" />
+    <field name="bInstantPickup" type="Boolean" />
+    <field name="bPickUpOnDestroy" type="Boolean" />
+    <field name="arkWeapon" type="Int64" />
+    <field name="iMinAmmo" type="Int32" />
+    <field name="iMaxAmmo" type="Int32" />
+    <field name="iMinAmmoNeededInClip" type="Int32" />
+    <field name="iMaxAmmoNeededInClip" type="Int32" />
+    <field name="iMinAmmoAfterPickup" type="Int32" />
+    <field name="iMaxAmmoAfterPickup" type="Int32" />
+    <object name="Sounds">
+        <field hash="7DD97794" type="String" />
+        <field hash="A57B9EFC" type="Int32" />
+        <field hash="7AF182DF" type="String" />
+        <field hash="A2536BB7" type="Int32" />
+        <field hash="76EFA64C" type="String" />
+        <field hash="5D822A3D" type="Int32" />
+        <field hash="71C75307" type="String" />
+        <field hash="5AAADF76" type="Int32" />
+        <field name="mpbarkBarkId" type="Boolean" />
+    </object>
+    <object name="SoundsWeapon">
+        <field name="sndPickAmmo" type="String" />
+        <field name="sndtpPickAmmoSoundType" type="Int32" />
+    </object>
+    <object hash="C1587501">
+        <object name="Attachment">
+            <field hash="AAF8D3F1" type="Boolean" />
+            <field name="Attachment" type="Int32" />
+        </object>
+    </object>
+</class>

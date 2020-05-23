@@ -235,6 +235,8 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
             }
             else if (mode == Mode.Export)
             {
+                HashFinder.Load(manager.ActiveProject.ListsPath);
+
                 string inputPath = extras[0];
                 string outputPath;
                 string basePath;

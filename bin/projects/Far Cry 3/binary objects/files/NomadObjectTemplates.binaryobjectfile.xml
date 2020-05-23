@@ -36,7 +36,10 @@
 				<inherit name="CFCXUnlockService"
 				         condition_field="^Name"
 				         condition_value="UnlockService" condition_type="String" />
-				
+				<inherit name="CFCXWeaponsService"
+				         condition_field="^Name"
+				         condition_value="WeaponsService" condition_type="String" />
+
 				<!-- FullName -->
 				<inherit name="CFCXIntelService"
 				         condition_field="FullName"

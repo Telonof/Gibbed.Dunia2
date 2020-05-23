@@ -21,6 +21,7 @@
  */
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -505,6 +506,10 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
             {
                 writer.WriteAttributeString("name", def.Name);
             }
+            else if (HashFinder.TryGetValue(node.NameHash, out var hashValue))
+            {
+                writer.WriteAttributeString("name", hashValue);
+            }
             else
             {
                 writer.WriteAttributeString("hash", node.NameHash.ToString("X8"));
@@ -527,6 +532,10 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                     if (fieldDef != null && fieldDef.Name != null && fieldDef.Hash == kv.Key)
                     {
                         writer.WriteAttributeString("name", fieldDef.Name);
+                    }
+                    else if (HashFinder.TryGetValue(kv.Key, out var hashValue))
+                    {
+                        writer.WriteAttributeString("name", hashValue);
                     }
                     else
                     {
@@ -572,6 +581,30 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
             }
 
             writer.WriteEndElement();
+        }
+    }
+
+    public static class HashFinder
+    {
+        private static readonly Dictionary<uint, string> Hashes = new Dictionary<uint, string>();
+
+        public static void Load(string listsPath)
+        {
+            foreach (var file in Directory.GetFiles(Path.Combine(listsPath, "hashes"), "*.json", SearchOption.AllDirectories))
+            {
+                if (Path.GetFileName(file).StartsWith("Hashes."))
+                {
+                    var stringHashes = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(file));
+
+                    foreach (var p in stringHashes)
+                        Hashes[uint.Parse(p.Key, NumberStyles.HexNumber)] = p.Value;
+                }
+            }
+        }
+
+        public static bool TryGetValue(uint hash, out string value)
+        {
+            return Hashes.TryGetValue(hash, out value);
         }
     }
 }

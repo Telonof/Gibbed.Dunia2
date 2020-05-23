@@ -1,0 +1,274 @@
+<class name="CFCXWeaponsService">
+    <inherit name="CWeaponsService" />
+    <field name="FullName" type="String" />
+    <field name="iJamCounter" type="Int32" />
+    <field name="iMaxPotions" type="Int32" />
+    <field name="iMaxCraftedArrows" type="Int32" />
+    <field name="arkFireArrowRecipeArchetypeId" type="Int64" />
+    <field name="arkExplosiveArrowRecipeArchetypeId" type="Int64" />
+    <field name="fThrowableHorizontalMoveSpeedFactor" type="Float32" />
+    <field name="fThrowableForwardsMoveSpeedFactor" type="Float32" />
+    <field name="fThrowableIEDHorizontalMoveSpeedFactor" type="Float32" />
+    <field name="fThrowableIEDForwardsMoveSpeedFactor" type="Float32" />
+    <field name="fIronSightStartSnapPercentage" type="Float32" />
+    <field name="fMultiKillTimeInterval" type="Float32" />
+    <field name="fMaxShellCaseSpawningDistance" type="Float32" />
+    <field name="fAmmoPickupMultiplierCasual" type="Float32" />
+    <field name="fAmmoPickupMultiplierExperimented" type="Float32" />
+    <field name="fAmmoPickupMultiplierHardcore" type="Float32" />
+    <field name="fAmmoPickupMultiplierInfamous" type="Float32" />
+    <object name="GadgetCategories">
+        <object name="Item">
+            <field name="slot" type="Int32" />
+            <field hash="B00E95D3" type="String" />
+            <field name="category" type="Float32" />
+        </object>
+    </object>
+    <object name="ThrowGadgets">
+        <object name="Item">
+            <field hash="B00E95D3" type="BinHex">6772656E61646500</field>
+            <field name="category" type="BinHex">B1E3E06A</field>
+        </object>
+    </object>
+    <object name="DefaultPlayerEquip">
+        <object name="Item">
+            <field hash="B00E95D3" type="String" />
+            <field name="category" type="Float32" />
+            <field hash="30928F28" type="String" />
+            <field name="Pack" type="Float32" />
+            <field name="arkArchetype" type="Int64" />
+        </object>
+    </object>
+    <object name="InventoryPacks">
+        <object name="Pack">
+            <field name="Name" type="String" />
+            <field hash="FC0911EA" type="String" />
+            <field name="Id" type="Int32" />
+            <object name="PrimaryWeapons">
+                <object name="PrimaryWeapon">
+                    <field name="fProbability" type="Float32" />
+                    <field name="arkArchetype" type="Int64" />
+                    <object name="AllowedRandomAttachments">
+                        <object name="AllowedRandomAttachment">
+                            <field hash="F2E588CD" type="String" />
+                            <field name="attachmentAttachmentType" type="Hash32" />
+                            <field name="iPercentProbability" type="Int32" />
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object name="SecondaryWeapons">
+                <object name="SecondaryWeapon">
+                    <field name="fProbability" type="Float32" />
+                    <field name="arkArchetype" type="Int64" />
+                    <object name="AllowedRandomAttachments">
+                        <object name="AllowedRandomAttachment">
+                            <field hash="F2E588CD" type="String" />
+                            <field name="attachmentAttachmentType" type="Hash32" />
+                            <field name="iPercentProbability" type="Int32" />
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object name="SpecialWeapons">
+                <object name="SpecialWeapon">
+                    <field name="fProbability" type="Float32" />
+                    <field name="arkArchetype" type="Int64" />
+                    <object name="AllowedRandomAttachments">
+                        <object name="AllowedRandomAttachment">
+                            <field hash="F2E588CD" type="String" />
+                            <field name="attachmentAttachmentType" type="Hash32" />
+                            <field name="iPercentProbability" type="Int32" />
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object name="MeleeWeapons">
+                <object name="MeleeWeapon">
+                    <field name="fProbability" type="Float32" />
+                    <field name="arkArchetype" type="Int64" />
+                    <object name="AllowedRandomAttachments">
+                        <object name="AllowedRandomAttachment">
+                            <field hash="F2E588CD" type="String" />
+                            <field name="attachmentAttachmentType" type="Hash32" />
+                            <field name="iPercentProbability" type="Int32" />
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object name="Ammos">
+                <object name="Ammo">
+                    <field name="fProbability" type="Float32" />
+                    <field hash="2B928622" type="String" />
+                    <field name="Type" type="Hash32" />
+                    <field name="nCount" type="Int32" />
+                    <field name="iMaxAmmoCasual" type="Int32" />
+                    <field name="iMaxAmmoExperimented" type="Int32" />
+                    <field name="iMaxAmmoHardcore" type="Int32" />
+                    <field name="iMaxAmmoInfamous" type="Int32" />
+                </object>
+            </object>
+            <object name="Gadgets">
+                <object name="Gadget">
+                    <field name="fProbability" type="Float32" />
+                    <field name="arkArchetype" type="Int64" />
+                    <field name="nCount" type="Int32" />
+                </object>
+            </object>
+            <object name="Recipes">
+                <object name="Recipe">
+                    <field name="fProbability" type="Float32" />
+                    <field name="arkArchetype" type="Int64" />
+                    <field name="nDefaultAmount" type="Int32" />
+                </object>
+            </object>
+        </object>
+    </object>
+    <object name="ReticleColours">
+        <object name="ReticleColour">
+            <field name="bEnabled" type="Boolean"></field>
+            <field name="colorColour" type="BinHex"></field>
+        </object>
+    </object>
+    <object name="FocusFire">
+        <field name="fFlickStickThreshold" type="Float32" />
+        <field name="fFlickInputDurationWindow" type="Float32" />
+        <field name="fScreenVisibilityPercent" type="Float32" />
+        <field name="fScreenDrawnPercent" type="Float32" />
+        <field name="fTargetDetectionInclusionAngle" type="Float32" />
+        <field name="fSlowmoAmount" type="Float32" />
+        <field name="fKeepFocusScreenDrawnPercentMultiplier" type="Float32" />
+        <field hash="239CEC01" type="Float32" />
+    </object>
+    <object name="DrivingAndShooting">
+        <field name="fFlickMoveAimDuration" type="Float32" />
+        <field name="fFlickScreenVisibilityPercent" type="Float32" />
+        <field name="fReflexFireSpreadFactor" type="Float32" />
+        <field name="iReflexFireWeightingHead" type="Int32" />
+        <field name="iReflexFireWeightingTorso" type="Int32" />
+        <field name="iReflexFireWeightingOtherBodyParts" type="Int32" />
+        <field name="iReflexFireWeightingDefaultAim" type="Int32" />
+        <field name="fVehicleLockOnDuration" type="Float32" />
+        <field name="fVehicleLockOnSpeedThreshold" type="Float32" />
+    </object>
+    <object name="Melee">
+        <field name="fAttackFOV" type="Float32" />
+        <field name="fTakedownFOV" type="Float32" />
+        <field name="fTakedownDistance" type="Float32" />
+        <field name="fTakedownDistanceSprinting" type="Float32" />
+        <field name="fEnvironmentalFOV" type="Float32" />
+        <field name="fApproachSpeed" type="Float32" />
+        <field name="fTakedownGrenadeHorizontalImpulseFront" type="Float32" />
+        <field name="fTakedownGrenadeVerticalImpulseFront" type="Float32" />
+        <field name="fTakedownGrenadeAngularImpulseFront" type="Float32" />
+        <field name="fTakedownGrenadeHorizontalImpulseBack" type="Float32" />
+        <field name="fTakedownGrenadeVerticalImpulseBack" type="Float32" />
+        <field name="fTakedownGrenadeAngularImpulseBack" type="Float32" />
+        <field name="arkGrenadeTakedownArchetype" type="Int64" />
+        <field name="arkPistolTakedownArchetype" type="Int64" />
+        <object name="WeaponMeleeProperties">
+            <field name="fMeleeDamageLevel" type="Float32" />
+            <field name="fMeleeImpulseStrength" type="Float32" />
+            <field name="selMeleeStimType" type="Int32" />
+            <field name="fPlannedAttackHeight" type="Float32" />
+            <field name="fGenericAttackDistance" type="Float32" />
+            <field name="fGenericAttackHeight" type="Float32" />
+            <field name="fAlertSoundRadHit" type="Float32" />
+            <field name="fAlertSoundRadNoHit" type="Float32" />
+            <field name="matimpMeleeImpactFx" type="Int64" />
+            <field name="arkMeleeProp" type="Int64" />
+            <object name="MeleeObjectsStims">
+                <field name="hidEventName" type="String" />
+                <field hash="B21C6A51" type="Boolean" />
+                <field name="hidTargetEntityId" type="Int64" />
+                <field hash="FC25E1F1" type="String" />
+                <field name="sDetail" type="Float32" />
+                <field name="selType" type="Int32" />
+                <field name="fLevel" type="Float32" />
+                <field name="vectorImpactPos" type="Vector3" />
+                <field name="hidShowType" type="Boolean" />
+                <field name="hidShowRadius" type="Boolean" />
+                <field hash="D37BD17F" type="Int32" />
+                <field name="fPhysImpulse" type="Float32" />
+                <field name="fPhysImpulseNPC" type="Float32" />
+                <field hash="9D963D5E" type="Float32" />
+                <object name="DiceRolls">
+                    <object name="Dice">
+                        <field name="fMinValue" type="Float32" />
+                        <field name="fMaxValue" type="Float32" />
+                        <field name="fStepSize" type="Float32" />
+                        <field hash="91548002" type="Int32" />
+                    </object>
+                </object>
+            </object>
+        </object>
+        <object name="TakedownKnifeThrow">
+            <field name="fTakedownKnifeThrowFOV" type="Float32" />
+            <field name="fTakedownKnifeMinThrowDistance" type="Float32" />
+            <field name="fTakedownKnifeMaxThrowDistance" type="Float32" />
+            <field name="fTakedownKnifeMaxHeightAngleDiff" type="Float32" />
+            <field name="fTakedownKnifeDistanceToEntityThreshold" type="Float32" />
+            <field name="fTakedownKnifeForgivingZoneRadius" type="Float32" />
+        </object>
+        <object name="TakedownChainKill">
+            <field name="fTakedownChainFOV" type="Float32" />
+            <field name="fTakedownChainMinDistance" type="Float32" />
+            <field name="fTakedownChainMaxDistance" type="Float32" />
+            <field name="fTakedownChainMaxHeightAngleDiff" type="Float32" />
+            <field name="fTakedownChainDistanceToEntityThreshold" type="Float32" />
+            <field name="fTakedownChainForgivingZoneRadius" type="Float32" />
+        </object>
+        <object name="TakedownChainSidesKill">
+            <field name="fTakedownChainSidesFOV" type="Float32" />
+            <field name="fTakedownChainSidesMinDistance" type="Float32" />
+            <field name="fTakedownChainSidesMaxDistance" type="Float32" />
+            <field name="fTakedownChainSidesMaxHeightAngleDiff" type="Float32" />
+        </object>
+    </object>
+    <object name="Special">
+        <field name="fIntuitionIronsightLookSensitivityFactor" type="Float32" />
+    </object>
+    <object name="Sounds">
+        <field name="fTimeBetweenBulletImpactSounds" type="Float32" />
+    </object>
+    <object name="ExplosionManager">
+        <field name="MinFrameNbBetweenExplosions" type="Int32" />
+        <field name="MaxFrameNbBetweenExplosions" type="Float32" />
+        <field name="ExplosionMaxImpulseScale" type="Float32" />
+    </object>
+    <object name="WeaponDownMode">
+        <field name="fWeaponDownTime" type="Float32" />
+        <field name="fWeaponDownTimeAfterSwitchWeapon" type="Float32" />
+    </object>
+    <object name="SpecialOpenWorldUnlockConditions">
+        <object name="Condition">
+            <field name="arkItemToUnlock" type="Int64" />
+            <field name="iCountToUnlock" type="Int32" />
+            <field name="locidPopupTitleLocId" type="Int32" />
+            <field name="locidPopupTextLocId" type="Int32" />
+            <object name="StatCondition">
+                <field name="selStatisticType" type="Int32" />
+            </object>
+        </object>
+    </object>
+    <object name="BlockingVolumes">
+        <field name="vectorMelee" type="Vector3" />
+        <field name="vectorNarrow" type="Vector3" />
+        <field name="vectorKnifeThrow" type="Vector3" />
+        <field name="vectorLootCheck" type="Vector3" />
+        <field name="vectorDoor" type="Vector3" />
+        <field name="vectorTakedownAboveCheck" type="Vector3" />
+        <field name="vectorVaultCheck" type="Vector3" />
+        <field name="vectorVaultCrouchedCheck" type="Vector3" />
+        <object name="VerticalOffsets">
+            <field name="fMelee" type="Float32" />
+            <field name="fNarrow" type="Float32" />
+            <field name="fKnifeThrow" type="Float32" />
+            <field name="fLootCheck" type="Float32" />
+            <field name="fDoor" type="Float32" />
+            <field name="fTakedownAboveCheck" type="Float32" />
+            <field name="fVaultCheck" type="Float32" />
+            <field name="fVaultCrouchedCheck" type="Float32" />
+        </object>
+    </object>
+</class>

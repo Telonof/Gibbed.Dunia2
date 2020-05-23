@@ -42,6 +42,14 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
 
         public static object Deserialize(FieldType fieldType, byte[] data, int offset, int count, out int read)
         {
+            if (data.Length == 0)
+            {
+                read = 0;
+
+                // ToDo: This is not correct for non-numeric types.
+                return 0;
+            }
+
             switch (fieldType)
             {
                 case FieldType.Boolean:
