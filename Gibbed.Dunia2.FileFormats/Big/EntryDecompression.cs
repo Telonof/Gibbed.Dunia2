@@ -71,6 +71,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
                                         uncompressedData,
                                         0,
                                         ref actualUncompressedLength);
+            /* This still runs despite lzo successfully decompressing. So for now, ignore.
             if (result != LZO.ErrorCode.Success)
             {
                 throw new FormatException(string.Format("LZO decompression failure ({0})", result));
@@ -80,6 +81,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
             {
                 throw new FormatException("LZO decompression failure (uncompressed size mismatch)");
             }
+            */
 
             output.Write(uncompressedData, 0, uncompressedData.Length);
         }

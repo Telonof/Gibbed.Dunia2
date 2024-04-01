@@ -391,7 +391,7 @@ namespace Gibbed.Dunia2.Unpack
                     }
 
                     var tuple = FileExtensions.Detect(guess, Math.Min(guess.Length, read));
-                    type = tuple != null ? tuple.Item1 : "unknown";
+                    //type = tuple != null ? tuple.Item1 : "unknown";
                     extension = tuple != null ? tuple.Item2 : null;
                 }
 
@@ -402,12 +402,14 @@ namespace Gibbed.Dunia2.Unpack
                     entryName = Path.ChangeExtension(entryName, "." + extension);
                 }
 
+                /*
                 if (string.IsNullOrEmpty(type) == false)
                 {
                     entryName = Path.Combine(type, entryName);
                 }
+                */
 
-                entryName = Path.Combine("__UNKNOWN", entryName);
+                entryName = Path.Combine("unknown", entryName);
             }
             else
             {

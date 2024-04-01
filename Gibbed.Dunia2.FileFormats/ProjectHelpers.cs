@@ -27,8 +27,15 @@ namespace Gibbed.Dunia2.FileFormats
         public static ProjectData.HashList<ulong> LoadListsFileNames(this ProjectData.Manager manager,
                                                                      int bigVersion)
         {
-            if (bigVersion >= 9) // TODO: check if this is right...
+            if (bigVersion >= 5) // TODO: check if this is right...
             {
+                if (bigVersion == 5)
+                {
+                    return manager.LoadLists("*.filelist",
+                         a => CRC64.Hash(a.ToLowerInvariant(), true),
+                         s => s.Replace("/", "\\"));
+                }
+
                 return manager.LoadLists("*.filelist",
                                          a => CRC64.Hash(a.ToLowerInvariant()),
                                          s => s.Replace("/", "\\"));
@@ -42,7 +49,7 @@ namespace Gibbed.Dunia2.FileFormats
         public static ProjectData.HashList<ulong> LoadListsFileNames(this ProjectData.Project project,
                                                                      int bigVersion)
         {
-            if (bigVersion >= 9) // TODO: check if this is right...
+            if (bigVersion >= 5) // TODO: check if this is right...
             {
                 return project.LoadLists("*.filelist",
                                          a => CRC64.Hash(a.ToLowerInvariant()),
@@ -57,7 +64,7 @@ namespace Gibbed.Dunia2.FileFormats
         public static ProjectData.HashList<ulong> LoadListsSubFatNames(this ProjectData.Manager manager,
                                                                        int bigVersion)
         {
-            if (bigVersion >= 9) // TODO: check if this is right...
+            if (bigVersion >= 5) // TODO: check if this is right...
             {
                 return manager.LoadLists("*.subfatlist",
                                          a => CRC64.Hash(a.ToLowerInvariant()),
@@ -72,7 +79,7 @@ namespace Gibbed.Dunia2.FileFormats
         public static ProjectData.HashList<ulong> LoadListsSubFatNames(this ProjectData.Project project,
                                                                        int bigVersion)
         {
-            if (bigVersion >= 9) // TODO: check if this is right...
+            if (bigVersion >= 5) // TODO: check if this is right...
             {
                 return project.LoadLists("*.subfatlist",
                                          a => CRC64.Hash(a.ToLowerInvariant()),

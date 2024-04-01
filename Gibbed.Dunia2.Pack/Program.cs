@@ -67,14 +67,14 @@ namespace Gibbed.Dunia2.Pack
             bool verbose = false;
             bool compress = false;
 
-            int packageVersion = 9;
+            int packageVersion = 5;
             Big.Platform packagePlatform = Big.Platform.PC;
 
             var options = new OptionSet()
             {
                 {"v|verbose", "be verbose", v => verbose = v != null},
                 {"c|compress", "compress data with LZO1x", v => compress = v != null},
-                {"pv|package-version", "package version (default 9)", v => packageVersion = ParsePackageVersion(v)},
+                {"pv|package-version", "package version (default 5)", v => packageVersion = ParsePackageVersion(v)},
                 {"pp|package-platform", "package platform (default PC)", v => packagePlatform = ParsePackagePlatform(v)},
                 {"h|help", "show this message and exit", v => showHelp = v != null},
             };
@@ -175,7 +175,7 @@ namespace Gibbed.Dunia2.Pack
                         continue;
                     }
 
-                    if (pieces[index].ToUpperInvariant() == "__UNKNOWN")
+                    if (pieces[index].ToUpperInvariant() == "unknown")
                     {
                         var partName = Path.GetFileNameWithoutExtension(partPath);
 
@@ -195,7 +195,8 @@ namespace Gibbed.Dunia2.Pack
                     else
                     {
                         pendingEntry.Name = string.Join("\\", pieces.Skip(index).ToArray()).ToLowerInvariant();
-                        pendingEntry.NameHash = CRC64.Hash(pendingEntry.Name);
+                        //CRC64 Jones is only for The Crew 1.
+                        pendingEntry.NameHash = CRC64.Hash(pendingEntry.Name, true);
                     }
 
                     if (pendingEntries.ContainsKey(pendingEntry.NameHash) == true)

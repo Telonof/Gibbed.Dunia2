@@ -81,11 +81,11 @@ namespace Gibbed.Dunia2.FileFormats
             if (version >= 3)
             {
                 var platform = ((uint)this.Platform) & 0xFF;
-                platform |= this.Unknown74 << 8;
+                //platform |= this.Unknown74 << 8;
                 output.WriteValueU32(platform, Endian.Little);
             }
 
-            if (version < 9)
+            if (version < 5)
             {
                 throw new InvalidOperationException();
             }
@@ -109,7 +109,7 @@ namespace Gibbed.Dunia2.FileFormats
                 entrySerializer.Serialize(output, entry, endian);
             }
 
-            output.WriteValueU32(0, Endian.Little);
+            //output.WriteValueU32(0, Endian.Little);
 
             if (version >= 7)
             {
@@ -195,12 +195,14 @@ namespace Gibbed.Dunia2.FileFormats
                 this.Entries.Add(entry);
             }
 
+            /*
             uint unknown1Count = input.ReadValueU32(Endian.Little);
             for (uint i = 0; i < unknown1Count; i++)
             {
                 throw new NotSupportedException();
                 input.ReadBytes(16);
             }
+            */       
 
             if (version >= 7)
             {

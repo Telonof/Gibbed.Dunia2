@@ -133,6 +133,12 @@ namespace Gibbed.Dunia2.FileFormats
 
             string text = Encoding.ASCII.GetString(guess, 0, read);
 
+            //Detection happens before LZO decompression, so account for those files.
+            if (text.StartsWith("???"))
+            {
+                text = text.Substring(3);
+            }
+
             if (read >= 3 && text.StartsWith("-- ") == true)
             {
                 return new Tuple<string, string>("scripts", "lua");
