@@ -175,7 +175,7 @@ namespace Gibbed.Dunia2.Pack
                         continue;
                     }
 
-                    if (pieces[index].ToUpperInvariant() == "unknown")
+                    if (pieces[index].ToUpperInvariant() == "UNKNOWN")
                     {
                         var partName = Path.GetFileNameWithoutExtension(partPath);
 
