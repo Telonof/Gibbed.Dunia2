@@ -52,6 +52,7 @@ namespace Gibbed.Dunia2.Pack
 
         private static Big.Platform ParsePackagePlatform(string text)
         {
+            /* TODO This is focusing on TC1 and this doesn't work anyways. Fix this and PackageVersion above later.
             Big.Platform value;
 
             if (Enum.TryParse(text, true, out value) == false)
@@ -59,6 +60,8 @@ namespace Gibbed.Dunia2.Pack
                 throw new FormatException("invalid package platform");
             }
             return value;
+            */
+            return Big.Platform.X360;
         }
 
         private static void Main(string[] args)
@@ -226,7 +229,7 @@ namespace Gibbed.Dunia2.Pack
             // need to figure out what this value actually does
             if (packagePlatform == Big.Platform.PC)
             {
-                fat.Unknown74 = 3;
+                fat.Unknown74 = 0;
             }
             else if (packagePlatform == Big.Platform.PS3 ||
                      packagePlatform == Big.Platform.X360)

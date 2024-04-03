@@ -37,7 +37,7 @@ namespace Gibbed.Dunia2.FileFormats
         {
             get
             {
-                return (this.Platform == Big.Platform.PC || this.Platform == Big.Platform.Any)
+                return (this.Platform == Big.Platform.PC || this.Platform == Big.Platform.X360 || this.Platform == Big.Platform.Any)
                            ? Endian.Little
                            : Endian.Big;
             }
@@ -81,7 +81,7 @@ namespace Gibbed.Dunia2.FileFormats
             if (version >= 3)
             {
                 var platform = ((uint)this.Platform) & 0xFF;
-                //platform |= this.Unknown74 << 8;
+                platform |= this.Unknown74 << 8;
                 output.WriteValueU32(platform, Endian.Little);
             }
 
