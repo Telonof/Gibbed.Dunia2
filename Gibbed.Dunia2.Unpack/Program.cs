@@ -137,99 +137,114 @@ namespace Gibbed.Dunia2.Unpack
 
             using (var input = File.OpenRead(datPath))
             {
-                if (extractFiles == true)
-                {
-                    Big.Entry[] entries;
-                    if (extractSubFats == true &&
+                Big.Entry[] entries;
+                if (extractSubFats == true &&
                         unpackSubFats == true)
+                {
+                    entries =
+                        fat.Entries.Concat(fat.SubFats.SelectMany(sf => sf.Entries))
+                           .OrderBy(e => e.Offset)
+                           .ToArray();
+                }
+                else
+                {
+                    entries = fat.Entries.OrderBy(e => e.Offset).ToArray();
+
+                    //Print files without extraction.
+                    if (verbose && !extractFiles)
                     {
-                        entries =
-                            fat.Entries.Concat(fat.SubFats.SelectMany(sf => sf.Entries))
-                               .OrderBy(e => e.Offset)
-                               .ToArray();
-                    }
-                    else
-                    {
-                        entries = fat.Entries.OrderBy(e => e.Offset).ToArray();
-                    }
-
-                    if (entries.Length > 0)
-                    {
-                        if (verbose == true)
-                        {
-                            Console.WriteLine("Unpacking files...");
-                        }
-
-                        long current = 0;
-                        long total = entries.Length;
-                        var padding = total.ToString(CultureInfo.InvariantCulture).Length;
-
-                        var duplicates = new Dictionary<ulong, int>();
-
+                        //Get the highest CompressedSize for clean printing.
+                        int paddingLength = entries.OrderBy(e => e.CompressedSize).Last().CompressedSize.ToString().Length;
                         foreach (var entry in entries)
                         {
-                            current++;
-
-                            if (subFatHashes.Contains(entry.NameHash) == true)
+                            string entryName = hashes[entry.NameHash];
+                            if (entryName == null)
                             {
-                                continue;
+                                entryName = entry.NameHash.ToString("X8");
                             }
 
-                            string entryName;
-                            if (GetEntryName(input, fat, entry, hashes, extractUnknowns, out entryName) == false)
-                            {
-                                continue;
-                            }
+                            Console.WriteLine($"{entry.Offset.ToString("X16")} {entry.CompressedSize.ToString().PadLeft(paddingLength)} {entryName}");
+                        }
+                        
+                    }
+                }
 
-                            if (duplicates.ContainsKey(entry.NameHash) == true)
-                            {
-                                var number = duplicates[entry.NameHash]++;
-                                var e = Path.GetExtension(entryName);
-                                var nn =
-                                    Path.ChangeExtension(
-                                        Path.ChangeExtension(entryName, null) + "__DUPLICATE_" +
-                                        number.ToString(CultureInfo.InvariantCulture),
-                                        e);
-                                entryName = Path.Combine("__DUPLICATE", nn);
-                            }
-                            else
-                            {
-                                duplicates[entry.NameHash] = 0;
-                            }
+                if (extractFiles && entries.Length > 0)
+                {
+                    if (verbose)
+                    {
+                        Console.WriteLine("Unpacking files...");
+                    }
 
-                            if (filter != null &&
-                                filter.IsMatch(entryName) == false)
-                            {
-                                continue;
-                            }
+                    long current = 0;
+                    long total = entries.Length;
+                    var padding = total.ToString(CultureInfo.InvariantCulture).Length;
 
-                            var entryPath = Path.Combine(outputPath, entryName);
-                            if (overwriteFiles == false &&
-                                File.Exists(entryPath) == true)
-                            {
-                                continue;
-                            }
+                    var duplicates = new Dictionary<ulong, int>();
 
-                            if (verbose == true)
-                            {
-                                Console.WriteLine("[{0}/{1}] {2}",
-                                                  current.ToString(CultureInfo.InvariantCulture).PadLeft(padding),
-                                                  total,
-                                                  entryName);
-                            }
+                    foreach (var entry in entries)
+                    {
+                        current++;
 
-                            input.Seek(entry.Offset, SeekOrigin.Begin);
+                        if (subFatHashes.Contains(entry.NameHash) == true)
+                        {
+                            continue;
+                        }
 
-                            var entryParent = Path.GetDirectoryName(entryPath);
-                            if (string.IsNullOrEmpty(entryParent) == false)
-                            {
-                                Directory.CreateDirectory(entryParent);
-                            }
+                        string entryName;
+                        if (GetEntryName(input, fat, entry, hashes, extractUnknowns, out entryName) == false)
+                        {
+                            continue;
+                        }
 
-                            using (var output = File.Create(entryPath))
-                            {
-                                EntryDecompression.Decompress(entry, input, output);
-                            }
+                        if (duplicates.ContainsKey(entry.NameHash) == true)
+                        {
+                            var number = duplicates[entry.NameHash]++;
+                            var e = Path.GetExtension(entryName);
+                            var nn =
+                                Path.ChangeExtension(
+                                    Path.ChangeExtension(entryName, null) + "__DUPLICATE_" +
+                                    number.ToString(CultureInfo.InvariantCulture),
+                                    e);
+                            entryName = Path.Combine("__DUPLICATE", nn);
+                        }
+                        else
+                        {
+                            duplicates[entry.NameHash] = 0;
+                        }
+
+                        if (filter != null &&
+                            filter.IsMatch(entryName) == false)
+                        {
+                            continue;
+                        }
+
+                        var entryPath = Path.Combine(outputPath, entryName);
+                        if (overwriteFiles == false &&
+                            File.Exists(entryPath) == true)
+                        {
+                            continue;
+                        }
+
+                        if (verbose == true)
+                        {
+                            Console.WriteLine("[{0}/{1}] {2}",
+                                              current.ToString(CultureInfo.InvariantCulture).PadLeft(padding),
+                                              total,
+                                              entryName);
+                        }
+
+                        input.Seek(entry.Offset, SeekOrigin.Begin);
+
+                        var entryParent = Path.GetDirectoryName(entryPath);
+                        if (string.IsNullOrEmpty(entryParent) == false)
+                        {
+                            Directory.CreateDirectory(entryParent);
+                        }
+
+                        using (var output = File.Create(entryPath))
+                        {
+                            EntryDecompression.Decompress(entry, input, output);
                         }
                     }
                 }
