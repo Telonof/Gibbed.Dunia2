@@ -163,8 +163,9 @@ namespace Gibbed.Dunia2.Unpack
                                 entryName = entry.NameHash.ToString("X8");
                             }
 
-                            Console.WriteLine($"{entry.Offset.Swap().ToString("X16")} {entry.CompressedSize.ToString().PadLeft(paddingLength)} {entryName}");
+                            Console.WriteLine($"{entry.Offset.ToString("X16")} {entry.CompressedSize.ToString().PadLeft(paddingLength)} {entryName}");
                         }
+                        
                     }
                 }
 
