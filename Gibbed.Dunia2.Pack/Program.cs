@@ -266,7 +266,14 @@ namespace Gibbed.Dunia2.Pack
                     using (var input = File.OpenRead(pendingEntry.FullPath))
                     {
                         EntryCompression.Compress(fat.Platform, ref entry, input, compress, output);
-                        output.Seek(output.Position.Align(16), SeekOrigin.Begin);
+                        if (packagePlatform == Big.Platform.X360)
+                        {
+                            output.Seek(output.Position, SeekOrigin.Begin);
+                        }
+                        else
+                        {
+                            output.Seek(output.Position.Align(16), SeekOrigin.Begin);
+                        }
                     }
 
                     fat.Entries.Add(entry);
