@@ -52,7 +52,6 @@ namespace Gibbed.Dunia2.Pack
 
         private static Big.Platform ParsePackagePlatform(string text)
         {
-            /* TODO This is focusing on TC1 and this doesn't work anyways. Fix this and PackageVersion above later.
             Big.Platform value;
 
             if (Enum.TryParse(text, true, out value) == false)
@@ -60,8 +59,6 @@ namespace Gibbed.Dunia2.Pack
                 throw new FormatException("invalid package platform");
             }
             return value;
-            */
-            return Big.Platform.X360;
         }
 
         private static void Main(string[] args)
@@ -77,8 +74,8 @@ namespace Gibbed.Dunia2.Pack
             {
                 {"v|verbose", "be verbose", v => verbose = v != null},
                 {"c|compress", "compress data with LZO1x", v => compress = v != null},
-                {"pv|package-version", "package version (default 5)", v => packageVersion = ParsePackageVersion(v)},
-                {"pp|package-platform", "package platform (default PC)", v => packagePlatform = ParsePackagePlatform(v)},
+                {"pv=|package-version=", "package version (default 5)", v => packageVersion = ParsePackageVersion(v)},
+                {"pp=|package-platform=", "package platform (default PC)", v => packagePlatform = ParsePackagePlatform(v)},
                 {"h|help", "show this message and exit", v => showHelp = v != null},
             };
 
