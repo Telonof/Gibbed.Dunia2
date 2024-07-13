@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Gibbed.Dunia2.FileFormats;
 using Gibbed.IO;
 using NDesk.Options;
@@ -69,6 +70,7 @@ namespace Gibbed.Dunia2.Pack
 
             int packageVersion = 5;
             Big.Platform packagePlatform = Big.Platform.PC;
+            string author = null;
 
             var options = new OptionSet()
             {
@@ -76,6 +78,7 @@ namespace Gibbed.Dunia2.Pack
                 {"c|compress", "compress data with LZO1x", v => compress = v != null},
                 {"pv=|package-version=", "package version (default 5)", v => packageVersion = ParsePackageVersion(v)},
                 {"pp=|package-platform=", "package platform (default PC)", v => packagePlatform = ParsePackagePlatform(v)},
+                {"au=|author=", "embed author into file.", v => author = v},
                 {"h|help", "show this message and exit", v => showHelp = v != null},
             };
 
@@ -135,6 +138,13 @@ namespace Gibbed.Dunia2.Pack
             if (verbose == true)
             {
                 Console.WriteLine("Finding files...");
+            }
+
+            byte[] authorHex = null;
+            int byteIndex = 0;
+            if (author != null)
+            {
+                authorHex = Encoding.UTF8.GetBytes(author);
             }
 
             foreach (var relativePath in inputPaths)
@@ -259,6 +269,23 @@ namespace Gibbed.Dunia2.Pack
                     var entry = new Big.Entry();
                     entry.NameHash = pendingEntry.NameHash;
                     entry.Offset = output.Position;
+
+                    //Ingrain author into dummy values.
+                    entry.author = 0;
+                    if (authorHex != null)
+                    {
+                        uint result = 0;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (authorHex.Length <= byteIndex)
+                            {
+                                byteIndex = 0;
+                            }
+                            result = result | ((uint)authorHex[byteIndex] << (24 - i * 8));
+                            byteIndex++;
+                        }
+                        entry.author = result;
+                    }
 
                     using (var input = File.OpenRead(pendingEntry.FullPath))
                     {
