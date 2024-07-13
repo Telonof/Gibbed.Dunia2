@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Gibbed.Dunia2.FileFormats;
 using Gibbed.IO;
 using NDesk.Options;
@@ -52,7 +53,6 @@ namespace Gibbed.Dunia2.Pack
 
         private static Big.Platform ParsePackagePlatform(string text)
         {
-            /* TODO This is focusing on TC1 and this doesn't work anyways. Fix this and PackageVersion above later.
             Big.Platform value;
 
             if (Enum.TryParse(text, true, out value) == false)
@@ -60,8 +60,6 @@ namespace Gibbed.Dunia2.Pack
                 throw new FormatException("invalid package platform");
             }
             return value;
-            */
-            return Big.Platform.X360;
         }
 
         private static void Main(string[] args)
@@ -72,13 +70,15 @@ namespace Gibbed.Dunia2.Pack
 
             int packageVersion = 5;
             Big.Platform packagePlatform = Big.Platform.PC;
+            string author = null;
 
             var options = new OptionSet()
             {
                 {"v|verbose", "be verbose", v => verbose = v != null},
                 {"c|compress", "compress data with LZO1x", v => compress = v != null},
-                {"pv|package-version", "package version (default 5)", v => packageVersion = ParsePackageVersion(v)},
-                {"pp|package-platform", "package platform (default PC)", v => packagePlatform = ParsePackagePlatform(v)},
+                {"pv=|package-version=", "package version (default 5)", v => packageVersion = ParsePackageVersion(v)},
+                {"pp=|package-platform=", "package platform (default PC)", v => packagePlatform = ParsePackagePlatform(v)},
+                {"au=|author=", "embed author into file.", v => author = v},
                 {"h|help", "show this message and exit", v => showHelp = v != null},
             };
 
@@ -138,6 +138,13 @@ namespace Gibbed.Dunia2.Pack
             if (verbose == true)
             {
                 Console.WriteLine("Finding files...");
+            }
+
+            byte[] authorHex = null;
+            int byteIndex = 0;
+            if (author != null)
+            {
+                authorHex = Encoding.UTF8.GetBytes(author);
             }
 
             foreach (var relativePath in inputPaths)
@@ -263,10 +270,34 @@ namespace Gibbed.Dunia2.Pack
                     entry.NameHash = pendingEntry.NameHash;
                     entry.Offset = output.Position;
 
+                    //Ingrain author into dummy values.
+                    entry.author = 0;
+                    if (authorHex != null)
+                    {
+                        uint result = 0;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (authorHex.Length <= byteIndex)
+                            {
+                                byteIndex = 0;
+                            }
+                            result = result | ((uint)authorHex[byteIndex] << (24 - i * 8));
+                            byteIndex++;
+                        }
+                        entry.author = result;
+                    }
+
                     using (var input = File.OpenRead(pendingEntry.FullPath))
                     {
                         EntryCompression.Compress(fat.Platform, ref entry, input, compress, output);
-                        output.Seek(output.Position.Align(16), SeekOrigin.Begin);
+                        if (packagePlatform == Big.Platform.X360)
+                        {
+                            output.Seek(output.Position, SeekOrigin.Begin);
+                        }
+                        else
+                        {
+                            output.Seek(output.Position.Align(16), SeekOrigin.Begin);
+                        }
                     }
 
                     fat.Entries.Add(entry);

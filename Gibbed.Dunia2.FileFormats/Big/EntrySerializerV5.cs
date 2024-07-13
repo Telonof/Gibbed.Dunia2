@@ -43,7 +43,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
             a |= ((entry.UncompressedSize << 2) & 0xFFFFFFFCu);
             a |= (uint)(((byte)entry.CompressionScheme << 0) & 0x00000003u);
 
-            uint b = 0;
+            var b = entry.author;
 
             var c = entry.NameHash;
 
@@ -52,7 +52,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
             var e = (uint)((entry.Offset & 0X00000003FFFFFFFCL) >> 2);
 
             output.WriteValueU32(a, endian);
-            output.WriteValueU32(b, endian);
+            output.WriteValueU32(b, Endian.Big);
             output.WriteValueU64(c, endian);
             output.WriteValueU32(d, endian);
             output.WriteValueU32(e, endian);
@@ -68,6 +68,8 @@ namespace Gibbed.Dunia2.FileFormats.Big
             var d = input.ReadValueU32(Endian.Little);
 
             entry.UncompressedSize = (a & 0xFFFFFFFCu) >> 2;
+
+            entry.author = 0;
 
             entry.CompressionScheme = (CompressionScheme)((a & 0x00000003u) >> 0);
 

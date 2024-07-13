@@ -49,7 +49,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
             }
             else
             {
-                if (platform == Platform.PC)
+                if (platform == Platform.PC || platform == Platform.X360)
                 {
                     CompressLzo(ref entry, input, output);
                 }

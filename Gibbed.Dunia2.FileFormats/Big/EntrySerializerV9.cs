@@ -76,6 +76,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
             entry.Offset = (long)d << 2;
             entry.Offset |= ((e & 0xC0000000u) >> 30);
             entry.CompressedSize = (uint)((e & 0x3FFFFFFFul) >> 0);
+            entry.author = 0;
         }
     }
 }
