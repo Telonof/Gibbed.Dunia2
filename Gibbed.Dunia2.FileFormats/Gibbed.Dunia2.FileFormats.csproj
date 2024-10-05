@@ -1,79 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{936B8D92-3DD5-4CF5-9C87-A36A073E6BC2}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gibbed.Dunia2.FileFormats</RootNamespace>
-    <AssemblyName>Gibbed.Dunia2.FileFormats</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>Gibbed.Dunia2.FileFormats</AssemblyTitle>
+    <Description>http://gib.me/</Description>
+    <Product>Gibbed.Dunia2.FileFormats</Product>
+    <Copyright>Copyright © Gibbed 2012</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+	<OutputPath>..\bin</OutputPath>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\other\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BigFile.cs" />
-    <Compile Include="Big\CompressionScheme.cs" />
-    <Compile Include="Big\Entry.cs" />
-    <Compile Include="Big\EntryCompression.cs" />
-    <Compile Include="Big\EntryDecompression.cs" />
-    <Compile Include="Big\EntrySerializerV1.cs" />
-    <Compile Include="Big\EntrySerializerV5.cs" />
-    <Compile Include="Big\EntrySerializerV6V8.cs" />
-    <Compile Include="Big\EntrySerializerV7.cs" />
-    <Compile Include="Big\EntrySerializerV9.cs" />
-    <Compile Include="Big\IEntrySerializer.cs" />
-    <Compile Include="Big\Platform.cs" />
-    <Compile Include="Big\SubFatEntry.cs" />
-    <Compile Include="BinaryObjectFile.cs" />
-    <Compile Include="BinaryObject.cs" />
-    <Compile Include="CRC32.cs" />
-    <Compile Include="CRC64.cs" />
-    <Compile Include="FileExtensions.cs" />
-    <Compile Include="LZO.cs" />
-    <Compile Include="ProjectHelpers.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamHelpers.cs" />
-    <Compile Include="SubFatFile.cs" />
-    <Compile Include="Vector2.cs" />
-    <Compile Include="Vector3.cs" />
-    <Compile Include="Vector4.cs" />
-    <Compile Include="XmlResourceFile.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Content Include="lzo_32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -83,21 +21,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gibbed.IO\Gibbed.IO.csproj">
-      <Project>{047857BA-DAA3-4CA7-AFB8-A1B082B28C6A}</Project>
-      <Name>Gibbed.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Gibbed.ProjectData\Gibbed.ProjectData.csproj">
-      <Project>{f27a289e-3376-4653-89f3-d19c1ecabf33}</Project>
-      <Name>Gibbed.ProjectData</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Gibbed.IO\Gibbed.IO.csproj" />
+    <ProjectReference Include="..\Gibbed.ProjectData\Gibbed.ProjectData.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
 </Project>

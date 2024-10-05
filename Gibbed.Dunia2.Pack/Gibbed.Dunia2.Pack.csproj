@@ -1,79 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <TargetFramework>net8.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{331555F4-86A1-41D9-AB3C-CBBCAD5C2D90}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gibbed.Dunia2.Pack</RootNamespace>
-    <AssemblyName>Gibbed.Dunia2.Pack</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>Gibbed.Dunia2.Pack</AssemblyTitle>
+    <Description>http://gib.me/</Description>
+    <Product>Gibbed.Dunia2.Pack</Product>
+    <Copyright>Copyright © Gibbed 2012</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+	<OutputPath>..\bin</OutputPath>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\Gibbed.Dunia2.FileFormats\Gibbed.Dunia2.FileFormats.csproj" />
+    <ProjectReference Include="..\Gibbed.IO\Gibbed.IO.csproj" />
+    <ProjectReference Include="..\NDesk.Options\NDesk.Options.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dummy.cs" />
-    <Compile Include="PendingEntry.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Gibbed.Dunia2.FileFormats\Gibbed.Dunia2.FileFormats.csproj">
-      <Project>{936B8D92-3DD5-4CF5-9C87-A36A073E6BC2}</Project>
-      <Name>Gibbed.Dunia2.FileFormats</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Gibbed.IO\Gibbed.IO.csproj">
-      <Project>{047857ba-daa3-4ca7-afb8-a1b082b28c6a}</Project>
-      <Name>Gibbed.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NDesk.Options\NDesk.Options.csproj">
-      <Project>{c98a6cd6-9422-4b35-8b7a-f520d75534d1}</Project>
-      <Name>NDesk.Options</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

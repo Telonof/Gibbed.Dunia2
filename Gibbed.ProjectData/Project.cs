@@ -101,21 +101,6 @@ namespace Gibbed.ProjectData
 
                     switch (type)
                     {
-                        case "registry":
-                        {
-                            string key = actions.Current.GetAttribute("key", "");
-                            string value = actions.Current.GetAttribute("value", "");
-
-                            path = (string)Registry.GetValue(key, value, null);
-
-                            if (path != null) // && Directory.Exists(path) == true)
-                            {
-                                locationPath = path;
-                                failed = false;
-                            }
-
-                            break;
-                        }
 
                         case "path":
                         {
