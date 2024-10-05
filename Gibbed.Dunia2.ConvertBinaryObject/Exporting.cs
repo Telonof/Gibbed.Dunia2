@@ -590,6 +590,11 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
 
         public static void Load(string listsPath)
         {
+            if (!Directory.Exists(Path.Combine(listsPath, "hashes")))
+            {
+                return;
+            }
+
             foreach (var file in Directory.GetFiles(Path.Combine(listsPath, "hashes"), "*.json", SearchOption.AllDirectories))
             {
                 if (Path.GetFileName(file).StartsWith("Hashes."))
