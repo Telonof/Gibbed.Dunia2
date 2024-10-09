@@ -12,6 +12,8 @@
     <FileVersion>1.0.0.0</FileVersion>
 	<OutputPath>..\bin</OutputPath>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+	<OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>..\bin\</OutputPath>

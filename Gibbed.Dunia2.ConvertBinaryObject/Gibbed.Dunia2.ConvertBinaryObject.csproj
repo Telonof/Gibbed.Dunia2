@@ -26,8 +26,9 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
 	<OutputPath>..\bin</OutputPath>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-  </PropertyGroup>
+	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <OutputType>Exe</OutputType>
+ </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gibbed.Dunia2.BinaryObjectInfo\Gibbed.Dunia2.BinaryObjectInfo.csproj" />
     <ProjectReference Include="..\Gibbed.ProjectData\Gibbed.ProjectData.csproj" />

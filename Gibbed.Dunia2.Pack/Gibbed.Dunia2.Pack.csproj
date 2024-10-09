@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyTitle>Gibbed.Dunia2.Pack</AssemblyTitle>
     <Description>http://gib.me/</Description>
@@ -12,6 +11,8 @@
     <FileVersion>1.0.0.0</FileVersion>
 	<OutputPath>..\bin</OutputPath>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+	<OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gibbed.Dunia2.FileFormats\Gibbed.Dunia2.FileFormats.csproj" />

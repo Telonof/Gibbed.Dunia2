@@ -2,7 +2,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <OutputType>Exe</OutputType>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -22,6 +21,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<OutputPath>..\bin</OutputPath>
 	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+	<OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>04BD24D2CD8B4C03FD1102C6916A2E6BCBB6732C</ManifestCertificateThumbprint>
