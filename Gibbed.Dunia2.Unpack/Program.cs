@@ -436,8 +436,8 @@ namespace Gibbed.Dunia2.Unpack
 
         private static string FilterEntryName(string entryName)
         {
-            entryName = entryName.Replace("/", "\\");
-            if (entryName.StartsWith("\\") == true)
+            entryName = entryName.Replace("/", Path.DirectorySeparatorChar.ToString()).Replace("\\", Path.DirectorySeparatorChar.ToString());
+            if (entryName.StartsWith(Path.DirectorySeparatorChar.ToString()) == true)
             {
                 entryName = entryName.Substring(1);
             }
