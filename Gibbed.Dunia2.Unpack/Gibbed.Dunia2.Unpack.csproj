@@ -25,15 +25,6 @@
 	<OutputType>Exe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>04BD24D2CD8B4C03FD1102C6916A2E6BCBB6732C</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>Gibbed.Dunia2.Unpack_TemporaryKey.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
     <SignManifests>true</SignManifests>
     <AssemblyTitle>Gibbed.Dunia2.Unpack</AssemblyTitle>
     <Description>http://gib.me/</Description>
@@ -48,18 +39,6 @@
     <ProjectReference Include="..\Gibbed.IO\Gibbed.IO.csproj" />
     <ProjectReference Include="..\Gibbed.ProjectData\Gibbed.ProjectData.csproj" />
     <ProjectReference Include="..\NDesk.Options\NDesk.Options.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

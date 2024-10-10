@@ -15,9 +15,6 @@
 	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
 	<OutputType>Exe</OutputType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <OutputPath>..\bin\</OutputPath>
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gibbed.Dunia2.FileFormats\Gibbed.Dunia2.FileFormats.csproj" />
     <ProjectReference Include="..\NDesk.Options\NDesk.Options.csproj" />
