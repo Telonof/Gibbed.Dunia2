@@ -13,7 +13,7 @@ internal class Program
 
     private static string GetExecutableName()
     {
-        return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        return Path.GetFileName(Environment.ProcessPath);
     }
 
     private static void Main(String[] args)

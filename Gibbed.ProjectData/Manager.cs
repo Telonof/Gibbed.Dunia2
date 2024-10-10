@@ -86,7 +86,7 @@ namespace Gibbed.ProjectData
             var manager = new Manager();
 
             string projectPath;
-            projectPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            projectPath = Path.GetDirectoryName(AppContext.BaseDirectory);
             projectPath = Path.Combine(projectPath, "projects");
 
             manager._ProjectPath = projectPath;

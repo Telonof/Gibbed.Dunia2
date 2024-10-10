@@ -38,7 +38,7 @@ namespace Gibbed.Dunia2.Unpack
     {
         private static string GetExecutableName()
         {
-            return Path.GetFileName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            return Path.GetFileName(Environment.ProcessPath);
         }
 
         public static void Main(string[] args)
