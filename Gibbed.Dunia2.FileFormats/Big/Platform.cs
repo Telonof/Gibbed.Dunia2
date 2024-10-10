@@ -29,6 +29,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
         PC = 1,
         X360 = 2,
         PS3 = 3,
+        PS4 = 5,
         Invalid = 0xFFFFFFFFu,
         // ReSharper restore InconsistentNaming
     }

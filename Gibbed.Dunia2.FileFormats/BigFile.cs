@@ -37,7 +37,7 @@ namespace Gibbed.Dunia2.FileFormats
         {
             get
             {
-                return (this.Platform == Big.Platform.PC || this.Platform == Big.Platform.X360 || this.Platform == Big.Platform.Any)
+                return (this.Platform == Big.Platform.PC || this.Platform == Big.Platform.X360 || this.Platform == Big.Platform.PS4 || this.Platform == Big.Platform.Any)
                            ? Endian.Little
                            : Endian.Big;
             }
@@ -63,7 +63,8 @@ namespace Gibbed.Dunia2.FileFormats
             if (this.Platform != Big.Platform.Any &&
                 this.Platform != Big.Platform.PC &&
                 this.Platform != Big.Platform.X360 &&
-                this.Platform != Big.Platform.PS3)
+                this.Platform != Big.Platform.PS3 &&
+                this.Platform != Big.Platform.PS4)
             {
                 throw new FormatException("unsupported/invalid platform");
             }
@@ -154,7 +155,8 @@ namespace Gibbed.Dunia2.FileFormats
             if (platform != Big.Platform.Any &&
                 platform != Big.Platform.PC &&
                 platform != Big.Platform.X360 &&
-                platform != Big.Platform.PS3)
+                platform != Big.Platform.PS3 &&
+                platform != Big.Platform.PS4)
             {
                 throw new FormatException("unsupported/invalid platform");
             }

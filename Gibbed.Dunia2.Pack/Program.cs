@@ -239,7 +239,8 @@ namespace Gibbed.Dunia2.Pack
                 fat.Unknown74 = 0;
             }
             else if (packagePlatform == Big.Platform.PS3 ||
-                     packagePlatform == Big.Platform.X360)
+                     packagePlatform == Big.Platform.X360 ||
+                     packagePlatform == Big.Platform.PS4)
             {
                 fat.Unknown74 = 4;
             }
