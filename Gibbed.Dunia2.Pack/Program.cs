@@ -188,8 +188,9 @@ namespace Gibbed.Dunia2.Pack
                     if (pieces[index].ToUpperInvariant() == "UNKNOWN")
                     {
                         var partName = Path.GetFileNameWithoutExtension(partPath);
+                        partName = partName.Split(".")[0];
 
-                        if (string.IsNullOrEmpty(partName) == true)
+                        if (string.IsNullOrEmpty(partName))
                         {
                             continue;
                         }
