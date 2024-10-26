@@ -84,10 +84,10 @@ namespace Gibbed.Dunia2.FileFormats
         private static class Linux64
         {
             [DllImport("libminilzo", EntryPoint = "lzo1x_1_compress")]
-            internal static extern ErrorCode LinuxCompress(byte[] src, int srcLen, byte[] dst, ref int dstLen, IntPtr wrkmem);
+            internal static extern ErrorCode LinuxCompress(byte[] inputBytes, int inputCount, byte[] outputBytes, ref int outputCount, IntPtr mem);
 
             [DllImport("libminilzo", EntryPoint = "lzo1x_decompress")]
-            internal static extern ErrorCode LinuxDecompress(byte[] src, int srcLen, byte[] dst, ref int dstLen);
+            internal static extern ErrorCode LinuxDecompress(byte[] inputBytes, int inputCount, byte[] outputBytes, ref int outputCount);
         }
 
         private const int _DictSize = 2;
@@ -165,6 +165,9 @@ namespace Gibbed.Dunia2.FileFormats
                                                      _CompressWork);
                 }
             }
+
+            inputHandle.Free();
+            outputHandle.Free();
 
             return result;
         }
