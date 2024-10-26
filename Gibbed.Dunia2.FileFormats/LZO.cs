@@ -81,6 +81,15 @@ namespace Gibbed.Dunia2.FileFormats
                                                               ref int outputCount);
         }
 
+        private static class Linux64
+        {
+            [DllImport("libminilzo", EntryPoint = "lzo1x_1_compress")]
+            internal static extern ErrorCode LinuxCompress(byte[] src, int srcLen, byte[] dst, ref int dstLen, IntPtr wrkmem);
+
+            [DllImport("libminilzo", EntryPoint = "lzo1x_decompress")]
+            internal static extern ErrorCode LinuxDecompress(byte[] src, int srcLen, byte[] dst, ref int dstLen);
+        }
+
         private const int _DictSize = 2;
         private const int _WorkSize = (16384 * _DictSize);
 
@@ -132,11 +141,20 @@ namespace Gibbed.Dunia2.FileFormats
             {
                 if (_Is64Bit == true)
                 {
-                    result = Native64.NativeCompress(inputHandle.AddrOfPinnedObject() + inputOffset,
-                                                     inputCount,
-                                                     outputHandle.AddrOfPinnedObject() + outputOffset,
-                                                     ref outputCount,
-                                                     _CompressWork);
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    {
+                        GCHandle handle = GCHandle.Alloc(_CompressWork, GCHandleType.Pinned);
+                        result = Linux64.LinuxCompress(inputBytes, inputCount, outputBytes, ref outputCount, handle.AddrOfPinnedObject());
+                        handle.Free();
+                    }
+                    else
+                    {
+                        result = Native64.NativeCompress(inputHandle.AddrOfPinnedObject() + inputOffset,
+                                 inputCount,
+                                 outputHandle.AddrOfPinnedObject() + outputOffset,
+                                 ref outputCount,
+                                 _CompressWork);
+                    }
                 }
                 else
                 {
@@ -195,10 +213,17 @@ namespace Gibbed.Dunia2.FileFormats
 
             if (_Is64Bit == true)
             {
-                result = Native64.NativeDecompress(inputHandle.AddrOfPinnedObject() + inputOffset,
-                                                   inputCount,
-                                                   outputHandle.AddrOfPinnedObject() + outputOffset,
-                                                   ref outputCount);
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    result = Linux64.LinuxDecompress(inputBytes, inputCount, outputBytes, ref outputCount);
+                }
+                else
+                {
+                    result = Native64.NativeDecompress(inputHandle.AddrOfPinnedObject() + inputOffset,
+                             inputCount,
+                             outputHandle.AddrOfPinnedObject() + outputOffset,
+                             ref outputCount);
+                }
             }
             else
             {
