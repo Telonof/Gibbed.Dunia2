@@ -155,7 +155,7 @@ namespace Gibbed.Dunia2.FileFormats
             if (platform != Big.Platform.Any &&
                 platform != Big.Platform.PC &&
                 platform != Big.Platform.X360 &&
-                platform != Big.Platform.PS3 &&
+                platform != Big.Platform.XONE &&
                 platform != Big.Platform.PS4)
             {
                 throw new FormatException("unsupported/invalid platform");
