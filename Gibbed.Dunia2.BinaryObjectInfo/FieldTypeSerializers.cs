@@ -397,21 +397,6 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                     return Serialize(fieldType, nav.Value);
                 }
 
-                case FieldType.Rml:
-                {
-                    var rml = new XmlResourceFile
-                    {
-                        Root = ConvertXml.Program.ReadNode(nav.SelectSingleNode("rml/*"))
-                    };
-
-                    using (var temp = new MemoryStream())
-                    {
-                        rml.Serialize(temp);
-                        temp.Position = 0;
-                        return temp.ReadBytes((uint)temp.Length);
-                    }
-                }
-
                 case FieldType.ComputeHash32:
                 {
                     return Serialize(fieldType, nav.Value);

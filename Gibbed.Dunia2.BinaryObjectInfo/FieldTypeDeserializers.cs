@@ -548,26 +548,6 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                     break;
                 }
 
-                case FieldType.Rml:
-                {
-                    if (HasLeft(data, 0, data.Length, 5) == false)
-                    {
-                        throw new FormatException("field type Rml requires at least 5 bytes");
-                    }
-
-                    var rez = new XmlResourceFile();
-                    using (var input = new MemoryStream(data, 0, data.Length, false))
-                    {
-                        rez.Deserialize(input);
-                        read = data.Length;
-                    }
-
-                    writer.WriteStartElement("rml");
-                    ConvertXml.Program.WriteNode(writer, rez.Root);
-                    writer.WriteEndElement();
-                    break;
-                }
-
                 case FieldType.Array32:
                 {
                     if (HasLeft(data, 0, data.Length, 4) == false)

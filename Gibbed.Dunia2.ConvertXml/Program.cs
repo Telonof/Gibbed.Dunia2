@@ -152,7 +152,7 @@ namespace Gibbed.Dunia2.ConvertXml
             }
         }
 
-        public static XmlResourceFile.Node ReadNode(XPathNavigator nav)
+        private static XmlResourceFile.Node ReadNode(XPathNavigator nav)
         {
             var node = new XmlResourceFile.Node
             {
@@ -198,7 +198,7 @@ namespace Gibbed.Dunia2.ConvertXml
             return node;
         }
 
-        public static void WriteNode(XmlWriter writer, XmlResourceFile.Node node)
+        private static void WriteNode(XmlWriter writer, XmlResourceFile.Node node)
         {
             writer.WriteStartElement(node.Name);
 

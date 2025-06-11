@@ -14,7 +14,6 @@
 	<RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gibbed.Dunia2.ConvertXml\Gibbed.Dunia2.ConvertXml.csproj" />
     <ProjectReference Include="..\Gibbed.Dunia2.FileFormats\Gibbed.Dunia2.FileFormats.csproj" />
     <ProjectReference Include="..\Gibbed.IO\Gibbed.IO.csproj" />
   </ItemGroup>
