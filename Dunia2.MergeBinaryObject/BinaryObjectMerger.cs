@@ -5,7 +5,7 @@ using System.Xml.XPath;
 
 namespace Dunia2.MergeBinaryObject
 {
-    public class Merger
+    public class BinaryObjectMerger
     {
         public BinaryObject Merge(BinaryObject root, XDocument file)
         {
