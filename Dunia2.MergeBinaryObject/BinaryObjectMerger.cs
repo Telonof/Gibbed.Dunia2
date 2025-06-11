@@ -1,13 +1,9 @@
 using Gibbed.Dunia2.BinaryObjectInfo;
 using Gibbed.Dunia2.FileFormats;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace Gibbed.Dunia2.ConvertBinaryObject
+namespace Dunia2.MergeBinaryObject
 {
     public class Merger
     {
@@ -80,7 +76,7 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
         private void AddObject(string fileName, IEnumerable<XElement> xmlData, BinaryObject obj)
         {
             string baseName = Path.GetFileNameWithoutExtension(fileName);
-            var importing = new Importing(InfoManager.Load(ProjectData.Manager.Load().ActiveProject.ListsPath));
+            var importing = new Importing(InfoManager.Load(Gibbed.ProjectData.Manager.Load().ActiveProject.ListsPath));
             foreach (XElement element in xmlData)
             {
                 BinaryObject newObject = importing.Import(null, baseName, element.CreateNavigator());
