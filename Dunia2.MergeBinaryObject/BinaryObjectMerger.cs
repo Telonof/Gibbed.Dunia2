@@ -35,20 +35,24 @@ namespace Dunia2.MergeBinaryObject
                     continue;
                 }
 
-                //Find parent BinaryObject (used for deleting objects)
-                BinaryObject parent = Traverse(root, depth, checkForModdedUids);
-                if (parent == null) //oof
+                //Modder should not be allowed to delete the root of a file
+                if (depth[0].Equals("root") && node.Name.LocalName.Equals("delete"))
                 {
-                    Console.WriteLine("Couldn't find BinaryObject, skipping command.");
+                    Console.WriteLine("Deleting the entire file is not allowed ;)");
                     continue;
                 }
 
+                //Find parent BinaryObject (used for deleting objects)
+                BinaryObject parent = Traverse(root, depth, checkForModdedUids);
+                BinaryObject obj = parent;
+                
                 //Remove all but the last one so we have a faster traverse
                 depth.RemoveRange(0, depth.Count - 1);
 
-                //Find actual BinaryObject
-                BinaryObject obj = Traverse(parent, depth, checkForModdedUids, 1);
-                if (obj == null) //double oof
+                if (!depth[0].Equals("root"))
+                    obj = Traverse(parent, depth, checkForModdedUids, 1);
+
+                if (obj == null)
                 {
                     Console.WriteLine("Couldn't find BinaryObject, skipping command.");
                     continue;
