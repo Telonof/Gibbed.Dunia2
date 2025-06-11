@@ -31,6 +31,8 @@ namespace Gibbed.Dunia2.FileFormats
     {
         private long _Position;
         private uint _NameHash;
+        private string _Uid;
+        private int _ChildIndex = 0;
         private readonly Dictionary<uint, byte[]> _Fields = new Dictionary<uint, byte[]>();
         private readonly List<BinaryObject> _Children = new List<BinaryObject>();
 
@@ -54,6 +56,18 @@ namespace Gibbed.Dunia2.FileFormats
         public List<BinaryObject> Children
         {
             get { return this._Children; }
+        }
+
+        public string Uid
+        {
+            get { return this._Uid; }
+            set { this._Uid = value; }
+        }
+
+        public int ChildIndex
+        {
+            get { return this._ChildIndex; }
+            set { this._ChildIndex = value; }
         }
 
         public void Serialize(Stream output,
@@ -88,7 +102,8 @@ namespace Gibbed.Dunia2.FileFormats
         public static BinaryObject Deserialize(BinaryObject parent,
                                                Stream input,
                                                List<BinaryObject> pointers,
-                                               Endian endian)
+                                               Endian endian, string depth = "0",
+                                               int index = 0)
         {
             long position = input.Position;
 
@@ -102,16 +117,20 @@ namespace Gibbed.Dunia2.FileFormats
 
             var child = new BinaryObject();
             child.Position = position;
+
+            child.Uid = depth;
+            child._ChildIndex = index;
+
             pointers.Add(child);
 
-            child.Deserialize(input, childCount, pointers, endian);
+            child.Deserialize(input, childCount, pointers, endian, depth);
             return child;
         }
 
         private void Deserialize(Stream input,
                                  uint childCount,
                                  List<BinaryObject> pointers,
-                                 Endian endian)
+                                 Endian endian, string depth)
         {
             bool isOffset;
 
@@ -157,7 +176,7 @@ namespace Gibbed.Dunia2.FileFormats
             this.Children.Clear();
             for (var i = 0; i < childCount; i++)
             {
-                this.Children.Add(Deserialize(this, input, pointers, endian));
+                this.Children.Add(Deserialize(this, input, pointers, endian, depth + $":{i}", i));
             }
         }
     }

@@ -521,6 +521,8 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                 writer.WriteAttributeString("def", objectFileDef.Name);
             }
 
+            writer.WriteComment($"Depth: {node.Uid}");
+
             if (node.Fields != null)
             {
                 foreach (var kv in node.Fields)
