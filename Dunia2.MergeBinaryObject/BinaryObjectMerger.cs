@@ -84,8 +84,8 @@ namespace Dunia2.MergeBinaryObject
             foreach (XElement element in xmlData)
             {
                 BinaryObject newObject = importing.Import(null, baseName, element.CreateNavigator());
-                int childCount = obj.Children.Count;
-                InsertUids(newObject, obj.Uid, childCount);
+                int childPos = obj.Children.Last().ChildIndex + 1;
+                InsertUids(newObject, obj.Uid, childPos);
                 obj.Children.Add(newObject);
             }
 
