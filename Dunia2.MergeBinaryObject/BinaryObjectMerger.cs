@@ -126,7 +126,8 @@ namespace Dunia2.MergeBinaryObject
         {
             origUid += $":{index}";
             obj.Uid = origUid;
-            obj.ChildIndex = index;
+            //New objects should not be given Child Indexes as these are designed to find original depth values.
+            obj.ChildIndex = -1;
             for (int i = 0; i < obj.Children.Count; i++)
             {
                 InsertUids(obj.Children[0], origUid, i);
