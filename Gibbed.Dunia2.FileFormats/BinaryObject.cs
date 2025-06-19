@@ -112,14 +112,17 @@ namespace Gibbed.Dunia2.FileFormats
 
             if (isOffset == true)
             {
-                return pointers[(int)childCount];
+                //Doing it the new way is way more inefficient, but actually has each object it's own entity which is useful when editing the BinaryObject directly.
+                //Tests show it takes from 0-1 seconds longer to run depending on the filesize. 
+                //return pointers[(int)childCount];
+                return CloneObject(pointers[(int)childCount], depth, index);
             }
 
             var child = new BinaryObject();
             child.Position = position;
 
             child.Uid = depth;
-            child._ChildIndex = index;
+            child.ChildIndex = index;
 
             pointers.Add(child);
 
@@ -178,6 +181,26 @@ namespace Gibbed.Dunia2.FileFormats
             {
                 this.Children.Add(Deserialize(this, input, pointers, endian, depth + $":{i}", i));
             }
+        }
+
+        private static BinaryObject CloneObject(BinaryObject obj, string depth, int index)
+        {
+            BinaryObject newObj = new BinaryObject();
+            newObj.ChildIndex = index;
+            newObj.Uid = depth;
+            newObj.NameHash = obj.NameHash;
+            newObj.Position = obj.Position;
+            
+            foreach (uint key in obj.Fields.Keys)
+            {
+                newObj.Fields.Add(key, obj.Fields[key]);
+            }
+
+            for (int i = 0; i < obj.Children.Count; i++)
+            {
+                newObj.Children.Add(CloneObject(obj.Children[i], depth + $":{i}", i));
+            }
+            return newObj;
         }
     }
 }
