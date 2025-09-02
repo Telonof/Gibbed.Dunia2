@@ -209,6 +209,16 @@ namespace Gibbed.Dunia2.FileFormats
                 return new Tuple<string, string>("game", "cseq");
             }
 
+            if (read >= 4 && text.StartsWith("RIFF"))
+            {
+                return new Tuple<string, string>("sound", "fev");
+            }
+            
+            if (read >= 4 && text.StartsWith("FSB5"))
+            {
+                return new Tuple<string, string>("sound", "fsb");
+            }
+
             return null;
         }
     }
