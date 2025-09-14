@@ -95,11 +95,21 @@ namespace Dunia2.MergeBinaryObject
         {
             foreach (XElement node in xmlData.Elements())
             {
-                if (node.Attribute("hash") == null)
+                if (node.Attribute("hash") == null && node.Attribute("name") == null)
                     continue;
 
-                string hash = node.Attribute("hash").Value;
-                uint id = Convert.ToUInt32(hash, 16);
+                uint id;
+
+                if (node.Attribute("name") != null)
+                {
+                    string name = node.Attribute("name").Value;
+                    id = CRC32.Hash(name);
+                }
+                else
+                {
+                    string hash = node.Attribute("hash").Value;
+                    id = Convert.ToUInt32(hash, 16);
+                }
 
                 string value = node.Value;
                 byte[] bytes = Convert.FromHexString(value);
