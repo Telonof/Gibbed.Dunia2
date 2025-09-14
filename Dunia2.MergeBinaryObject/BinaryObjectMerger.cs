@@ -158,21 +158,21 @@ namespace Dunia2.MergeBinaryObject
             }
             depth.RemoveAt(0);
 
-            if (moddedUid && index > obj.Children.Count)
+            if (moddedUid && index >= obj.Children.Count)
             {
                 Console.WriteLine("Another mod deleted the object this was trying to edit, cancelling command.");
                 return null;
             }
 
             //If original instead, grab the last child, if it's index is less then it's also a goner.
-            if (index > obj.Children.Count && obj.Children.Last().ChildIndex < index)
+            if (index >= obj.Children.Count && obj.Children.Last().ChildIndex < index)
             {
                 Console.WriteLine("Another mod deleted the object this was trying to edit, cancelling command.");
                 return null;
             }
 
             //If the childIndex does not match that means this depth has been modified, find the original childIndex if possible.
-            if (!moddedUid && (obj.Children[index].ChildIndex != index))
+            if (!moddedUid && (index >= obj.Children.Count || obj.Children[index].ChildIndex != index))
             {
                 BinaryObject foundChild = obj.Children.FirstOrDefault(child => child.ChildIndex == index);
                 if (foundChild == null)
