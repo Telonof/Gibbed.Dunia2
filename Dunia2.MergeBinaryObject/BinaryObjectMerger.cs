@@ -45,7 +45,7 @@ namespace Dunia2.MergeBinaryObject
                 //Find parent BinaryObject (used for deleting objects)
                 BinaryObject parent = Traverse(root, depth, checkForModdedUids);
                 BinaryObject obj = parent;
-                
+
                 //Remove all but the last one so we have a faster traverse
                 depth.RemoveRange(0, depth.Count - 1);
 
@@ -68,6 +68,10 @@ namespace Dunia2.MergeBinaryObject
                         EditObject(node, obj);
                         Console.WriteLine($":Edited {obj.Uid}");
                         break;
+                    case "editall":
+                        ScanAllFields(node, obj);
+                        Console.WriteLine($":Edited {obj.Uid}");
+                        break;
                     case "delete":
                         parent.Children.Remove(obj);
                         Console.WriteLine($":Deleted {obj.Uid}");
@@ -88,47 +92,60 @@ namespace Dunia2.MergeBinaryObject
                 InsertUids(newObject, obj.Uid, childPos);
                 obj.Children.Add(newObject);
             }
-
         }
 
         private void EditObject(XElement xmlData, BinaryObject obj)
         {
             foreach (XElement node in xmlData.Elements())
             {
-                if (node.Attribute("hash") == null && node.Attribute("name") == null)
+                EditField(node, obj);
+            }
+        }
+
+        private void EditField(XElement node, BinaryObject obj)
+        {
+            if (node.Attribute("hash") == null && node.Attribute("name") == null)
+                return;
+
+            uint id = GetFieldHash(node);
+
+            string value = node.Value;
+            byte[] bytes = Convert.FromHexString(value);
+
+            if (obj.Fields.ContainsKey(id))
+            {
+                //Delete field if value is empty
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    obj.Fields.Remove(id);
+                    return;
+                }
+
+                //Replace value in field
+                obj.Fields[id] = bytes;
+            }
+            else
+            {
+                obj.Fields.Add(id, bytes);
+            }
+        }
+
+        //When it comes to editing all fields only fields that exist should work.
+        //We do not want a new field for every object if someone sets the depth to root.
+        private void ScanAllFields(XElement xmlData, BinaryObject obj)
+        {
+            foreach (XElement node in xmlData.Elements())
+            {
+                uint key = GetFieldHash(node);
+                if (!obj.Fields.ContainsKey(key))
                     continue;
 
-                uint id;
+                EditField(node, obj);
+            }
 
-                if (node.Attribute("name") != null)
-                {
-                    string name = node.Attribute("name").Value;
-                    id = CRC32.Hash(name);
-                }
-                else
-                {
-                    string hash = node.Attribute("hash").Value;
-                    id = Convert.ToUInt32(hash, 16);
-                }
-
-                string value = node.Value;
-                byte[] bytes = Convert.FromHexString(value);
-
-                if (obj.Fields.ContainsKey(id))
-                {
-                    //Delete field if value is empty
-                    if (string.IsNullOrWhiteSpace(value))
-                    {
-                        obj.Fields.Remove(id);
-                        continue;
-                    }
-
-                    //Replace value in field
-                    obj.Fields[id] = bytes;
-                } else
-                {
-                    obj.Fields.Add(id, bytes);
-                }
+            foreach (BinaryObject child in obj.Children)
+            {
+                ScanAllFields(xmlData, child);
             }
         }
 
@@ -183,6 +200,25 @@ namespace Dunia2.MergeBinaryObject
                 index = obj.Children.IndexOf(foundChild);
             }
             return Traverse(obj.Children[index], depth, moddedUid);
+        }
+
+        private uint GetFieldHash(XElement element)
+        {
+            string value;
+
+            if (element.Attribute("hash") != null)
+            {
+                value = element.Attribute("hash").Value;
+                return Convert.ToUInt32(value, 16);
+            }
+
+            if (element.Attribute("name") != null)
+            {
+                value = element.Attribute("name").Value;
+                return CRC32.Hash(value);
+            }
+
+            return 0;
         }
     }
 }
