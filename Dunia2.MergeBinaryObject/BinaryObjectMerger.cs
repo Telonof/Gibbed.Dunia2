@@ -175,7 +175,7 @@ namespace Dunia2.MergeBinaryObject
             }
             depth.RemoveAt(0);
 
-            if (moddedUid && index >= obj.Children.Count)
+            if (obj == null || (moddedUid && index >= obj.Children.Count))
             {
                 Console.WriteLine("Another mod deleted the object this was trying to edit, cancelling command.");
                 return null;
