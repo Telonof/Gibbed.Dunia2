@@ -22,6 +22,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Gibbed.IO;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
@@ -151,6 +152,11 @@ namespace Gibbed.Dunia2.FileFormats.Big
 
         private static void DecompressOodle(Entry entry, Stream input, Stream output)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                throw new NotSupportedException("Linux does not support extracting oodle files.");
+            }
+
             byte[] data = new byte[entry.UncompressedSize];
             Oodle.Decompress(input.ReadBytes(entry.CompressedSize), (int)entry.CompressedSize, ref data, (int)entry.UncompressedSize);
             output.Write(data, 0, (int)entry.UncompressedSize);
