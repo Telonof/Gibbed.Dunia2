@@ -282,12 +282,15 @@ namespace Gibbed.ProjectData
                         if (list.Lookup.ContainsKey(hash) == true &&
                             list.Lookup[hash] != line)
                         {
+                            /*
                             string otherLine = list.Lookup[hash];
                             throw new InvalidOperationException(
                                 string.Format(
                                     "hash collision ('{0}' vs '{1}')",
                                     line,
                                     otherLine));
+                            */
+                            continue;
                         }
 
                         list.Lookup[hash] = line;
