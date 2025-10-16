@@ -1,0 +1,7 @@
+<project>
+	<name>The Crew 2</name>
+	<dependencies>
+		<dependency>Shared</dependency>
+	</dependencies>
+	<list_location>The Crew 2</list_location>
+</project>

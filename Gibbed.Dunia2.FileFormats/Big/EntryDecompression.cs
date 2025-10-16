@@ -34,21 +34,22 @@ namespace Gibbed.Dunia2.FileFormats.Big
         {
             input.Seek(entry.Offset, SeekOrigin.Begin);
 
-            if (entry.CompressionScheme == CompressionScheme.None)
+            switch (entry.CompressionScheme)
             {
-                output.WriteFromStream(input, entry.CompressedSize);
-            }
-            else if (entry.CompressionScheme == CompressionScheme.LZO1x)
-            {
-                DecompressLzo(entry, input, output);
-            }
-            else if (entry.CompressionScheme == CompressionScheme.Zlib)
-            {
-                DecompressZlib(entry, input, output);
-            }
-            else
-            {
-                throw new NotImplementedException();
+                case CompressionScheme.None:
+                    output.WriteFromStream(input, entry.CompressedSize);
+                    break;
+                case CompressionScheme.LZO1x:
+                    DecompressLzo(entry, input, output);
+                    break;
+                case CompressionScheme.Zlib:
+                    DecompressZlib(entry, input, output);
+                    break;
+                case CompressionScheme.oodle:
+                    DecompressOodle(entry, input, output);
+                    break;
+                default:
+                    throw new NotImplementedException();
             }
         }
 
@@ -146,6 +147,13 @@ namespace Gibbed.Dunia2.FileFormats.Big
             {
                 Console.WriteLine("WAT");
             }
+        }
+
+        private static void DecompressOodle(Entry entry, Stream input, Stream output)
+        {
+            byte[] data = new byte[entry.UncompressedSize];
+            Oodle.Decompress(input.ReadBytes(entry.CompressedSize), (int)entry.CompressedSize, ref data, (int)entry.UncompressedSize);
+            output.Write(data, 0, (int)entry.UncompressedSize);
         }
     }
 }

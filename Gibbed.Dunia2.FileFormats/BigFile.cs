@@ -264,7 +264,8 @@ namespace Gibbed.Dunia2.FileFormats
                 }
             }
             else if (entry.CompressionScheme == Big.CompressionScheme.LZO1x ||
-                     entry.CompressionScheme == Big.CompressionScheme.Zlib)
+                     entry.CompressionScheme == Big.CompressionScheme.Zlib ||
+                     entry.CompressionScheme == Big.CompressionScheme.oodle)
             {
                 if (entry.CompressedSize == 0 &&
                     entry.UncompressedSize > 0)

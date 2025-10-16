@@ -289,7 +289,7 @@ namespace Gibbed.Dunia2.Pack
                         entry.author = result;
                     }
 
-                    using (var input = File.OpenRead(pendingEntry.FullPath))
+                    using (FileStream input = File.OpenRead(pendingEntry.FullPath))
                     {
                         EntryCompression.Compress(fat.Platform, ref entry, input, compress, output);
                         if (packagePlatform == Big.Platform.X360)

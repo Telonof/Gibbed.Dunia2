@@ -29,7 +29,7 @@ namespace Gibbed.Dunia2.FileFormats
         {
             if (bigVersion >= 5) // TODO: check if this is right...
             {
-                if (bigVersion == 5)
+                if (bigVersion == 5 || bigVersion == 6)
                 {
                     return manager.LoadLists("*.filelist",
                          a => CRC64.Hash(a.ToLowerInvariant(), true),

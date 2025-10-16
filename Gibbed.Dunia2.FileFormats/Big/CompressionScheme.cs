@@ -29,6 +29,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
         LZO1x = 1,
         Zlib = 2,
         Unknown3 = 3,
+        oodle = 4,
         // ReSharper restore InconsistentNaming
     }
 }
