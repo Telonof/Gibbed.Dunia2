@@ -10506,5 +10506,7 @@
   "9D48E3FC": "CITLibraryEntityAudioMaterial",
   "57CCD8FD": "CITLibraryEntityParticlesSystem",
   "2E73F5FD": "CITEntityAchievement_KudosCloseShave",
-  "ACF253FE": "CITEntityVideo"
+  "ACF253FE": "CITEntityVideo",
+  "025A385F": "AttitudeID",
+  "C8E807A4": "CatchupOffset"
 }
