@@ -67,15 +67,19 @@ namespace Gibbed.Dunia2.Pack
             bool showHelp = false;
             bool verbose = false;
             bool compress = false;
+            string filelist = null;
 
             int packageVersion = 5;
             Big.Platform packagePlatform = Big.Platform.PC;
             string author = null;
 
+            HashSet<ulong> hashes = [];
+
             var options = new OptionSet()
             {
                 {"v|verbose", "be verbose", v => verbose = v != null},
                 {"c|compress", "compress data with LZO1x", v => compress = v != null},
+                {"f=|filelist=", "Gives a filelist in the form of a FAT file to ignore new files", v => filelist = v},
                 {"pv=|package-version=", "package version (default 5)", v => packageVersion = ParsePackageVersion(v)},
                 {"pp=|package-platform=", "package platform (default PC)", v => packagePlatform = ParsePackagePlatform(v)},
                 {"au=|author=", "embed author into file.", v => author = v},
@@ -134,6 +138,14 @@ namespace Gibbed.Dunia2.Pack
             }
 
             var pendingEntries = new SortedDictionary<ulong, PendingEntry>();
+            
+            //add hashlist if specified
+            if (!string.IsNullOrWhiteSpace(filelist))
+            {
+                BigFile file = new BigFile();
+                file.Deserialize(File.OpenRead(filelist));
+                file.Entries.ForEach(entry => hashes.Add(entry.NameHash));
+            }
 
             if (verbose == true)
             {
@@ -220,6 +232,11 @@ namespace Gibbed.Dunia2.Pack
                                               pendingEntries[pendingEntry.NameHash].PartPath);
                         }
 
+                        continue;
+                    }
+
+                    if (hashes.Count != 0 && !hashes.Contains(pendingEntry.NameHash))
+                    {
                         continue;
                     }
 
