@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Gibbed.Dunia2.FileFormats
@@ -16,7 +17,7 @@ namespace Gibbed.Dunia2.FileFormats
 
         private string Name;
 
-        private readonly List<Column> Columns = [];
+        public readonly List<Column> Columns = [];
 
         public readonly List<Row> Rows = [];
 
@@ -132,6 +133,15 @@ namespace Gibbed.Dunia2.FileFormats
             }
 
             output.WriteBytes(dataSection.ToArray());
+        }
+
+        public int GrabColumnIndex(string name)
+        {
+            Column column = Columns.Where(col => col.Name.Equals(name, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            if (column == null)
+                return -1;
+
+            return Columns.IndexOf(column);
         }
 
         private string GrabString(Stream input)
