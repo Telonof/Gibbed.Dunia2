@@ -20,21 +20,31 @@ namespace Dunia2.ConvertBabelDB
                 return;
             }
 
-            if (!File.Exists(args[0]))
+            foreach (string arg in args)
             {
-                Console.WriteLine("File not found.");
-                return;
-            }
+                if (!File.Exists(arg))
+                {
+                    Console.WriteLine($"File {arg} not found.");
+                    continue;
+                }
 
+                Console.WriteLine($"Converting {arg}");
+                ConvertToCSV(arg);
+            }
+        }
+
+        private static void ConvertToCSV(string path)
+        {
+            lines.Clear();
             BabelDBFile babdb = new BabelDBFile();
-            babdb.Deseralize(File.OpenRead(args[0]));
+            babdb.Deseralize(File.OpenRead(path));
 
             //Add column data
             string columns = "";
 
             foreach (Column column in babdb.Columns)
             {
-                columns += column.Name + ",";
+                columns += column.Name + "\t";
             }
 
             lines.Add(columns);
@@ -45,14 +55,14 @@ namespace Dunia2.ConvertBabelDB
             {
                 foreach (byte[] data in row.data)
                 {
-                    rowCSV += Convert.ToHexString(data) + ",";
+                    rowCSV += Convert.ToHexString(data) + "\t";
                 }
 
                 lines.Add(rowCSV);
                 rowCSV = "";
             }
 
-            File.WriteAllLines(Path.ChangeExtension(args[0], ".csv"), lines);
+            File.WriteAllLines(Path.ChangeExtension(path, ".csv"), lines);
         }
     }
 }
