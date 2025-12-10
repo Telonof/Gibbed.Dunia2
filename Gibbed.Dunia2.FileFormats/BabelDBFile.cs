@@ -41,7 +41,7 @@ namespace Gibbed.Dunia2.FileFormats
             input.Seek(8, SeekOrigin.Current);
 
             //Get if strings use 32 bytes or 64
-            if ((columnDefSize / 44) != columnCount)
+            if (((double)columnDefSize / 44) != columnCount)
                 StringAlloc = 64;
 
             Name = GrabString(input);
