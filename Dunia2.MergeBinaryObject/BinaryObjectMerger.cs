@@ -27,7 +27,8 @@ namespace Dunia2.MergeBinaryObject
                     continue;
                 }
 
-                List<string> depth = node.Attribute("depth").Value.Split(":").ToList();
+                string fullDepth = node.Attribute("depth").Value;
+                List<string> depth = fullDepth.Split(":").ToList();
 
                 if (depth.Count == 0)
                 {
@@ -41,6 +42,8 @@ namespace Dunia2.MergeBinaryObject
                     Console.WriteLine("Deleting the entire file is not allowed ;)");
                     continue;
                 }
+
+                Console.Write($"Attempting to modify {fullDepth}... ");
 
                 //Find parent BinaryObject (used for deleting objects)
                 BinaryObject parent = Traverse(root, depth, checkForModdedUids);
@@ -62,19 +65,19 @@ namespace Dunia2.MergeBinaryObject
                 {
                     case "add":
                         AddObject("", node.Elements(), obj);
-                        Console.WriteLine($":Added objects into {obj.Uid}");
+                        Console.WriteLine("Success");
                         break;
                     case "edit":
                         EditObject(node, obj);
-                        Console.WriteLine($":Edited {obj.Uid}");
+                        Console.WriteLine("Success");
                         break;
                     case "editall":
                         ScanAllFields(node, obj);
-                        Console.WriteLine($":Edited {obj.Uid}");
+                        Console.WriteLine("Success");
                         break;
                     case "delete":
                         parent.Children.Remove(obj);
-                        Console.WriteLine($":Deleted {obj.Uid}");
+                        Console.WriteLine("Success");
                         break;
                 }
             }
