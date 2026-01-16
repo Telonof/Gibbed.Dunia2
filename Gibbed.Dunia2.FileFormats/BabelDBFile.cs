@@ -72,10 +72,15 @@ namespace Gibbed.Dunia2.FileFormats
 
         public void Serialize(Stream output)
         {
+            bool pkSort = Columns[0].PK && Columns[0].Name.Equals("id");
+
             //Seralize data section first to get total byte count.
+            SortedDictionary<ulong, List<byte>> dataSegments = [];
             List<byte> dataSection = [];
+
             foreach (Row row in Rows)
             {
+                ulong id = 0;
                 if (row.data.Count != Columns.Count)
                 {
                     throw new FormatException("Too little/many data segements in row.");
@@ -101,9 +106,20 @@ namespace Gibbed.Dunia2.FileFormats
                         trimmedData = data;
                     }
 
+                    byte[] idBytes = trimmedData[..];
                     Array.Reverse(trimmedData);
-                    dataSection.AddRange(trimmedData);
+
+                    if (pkSort && i == 0)
+                        id = BitConverter.ToUInt64(idBytes, 0);
+
+                    dataSegments.TryAdd(id, []);
+                    dataSegments[id].AddRange(trimmedData);
                 }
+            }
+
+            foreach (List<byte> value in dataSegments.Values)
+            {
+                dataSection.AddRange(value);
             }
 
             int columnDefSize = Columns.Count * (StringAlloc + 12);
