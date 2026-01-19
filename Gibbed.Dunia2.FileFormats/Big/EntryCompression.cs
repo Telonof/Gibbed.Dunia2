@@ -47,6 +47,10 @@ namespace Gibbed.Dunia2.FileFormats.Big
                 entry.CompressedSize = (uint)input.Length;
                 output.WriteFromStream(input, input.Length);
             }
+            else if (entry.CompressionScheme == CompressionScheme.oodle)
+            {
+                CompressOodle(ref entry, input, output);
+            }
             else
             {
                 if (platform == Platform.PC || platform == Platform.X360)
@@ -85,6 +89,31 @@ namespace Gibbed.Dunia2.FileFormats.Big
             if (actualCompressedSize < uncompressedSize)
             {
                 entry.CompressionScheme = CompressionScheme.LZO1x;
+                entry.UncompressedSize = uncompressedSize;
+                entry.CompressedSize = (uint)actualCompressedSize;
+                output.Write(compressedData, 0, actualCompressedSize);
+            }
+            else
+            {
+                input.Seek(0, SeekOrigin.Begin);
+                entry.CompressionScheme = CompressionScheme.None;
+                entry.UncompressedSize = 0;
+                entry.CompressedSize = (uint)input.Length;
+                output.WriteFromStream(input, input.Length);
+            }
+        }
+
+        private static void CompressOodle(ref Entry entry, Stream input, Stream output)
+        {
+            var uncompressedData = input.ReadBytes((int)input.Length);
+            var uncompressedSize = (uint)uncompressedData.Length;
+
+            var compressedData = new byte[uncompressedData.Length * 2];
+
+            int actualCompressedSize = Oodle.Compress(uncompressedData, uncompressedData.Length, ref compressedData);
+
+            if (actualCompressedSize < uncompressedSize)
+            {
                 entry.UncompressedSize = uncompressedSize;
                 entry.CompressedSize = (uint)actualCompressedSize;
                 output.Write(compressedData, 0, actualCompressedSize);

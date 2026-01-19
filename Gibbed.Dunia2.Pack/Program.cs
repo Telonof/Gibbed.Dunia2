@@ -288,6 +288,8 @@ namespace Gibbed.Dunia2.Pack
                     var entry = new Big.Entry();
                     entry.NameHash = pendingEntry.NameHash;
                     entry.Offset = output.Position;
+                    if (packageVersion == 6 && compress)
+                        entry.CompressionScheme = Big.CompressionScheme.oodle;
 
                     //Ingrain author into dummy values.
                     entry.author = 0;

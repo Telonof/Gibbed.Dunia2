@@ -74,10 +74,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
 
             entry.author = 0;
 
-            entry.CompressionScheme = CompressionScheme.None;
-
-            if (a > 0)
-                entry.CompressionScheme = CompressionScheme.oodle;
+            entry.CompressionScheme = (CompressionScheme)((a & 0x00000003u) >> 0);
 
             entry.NameHash = b;
 
