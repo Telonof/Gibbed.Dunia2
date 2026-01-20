@@ -113,9 +113,10 @@ namespace Dunia2.MergeBinaryObject
             uint id = GetFieldHash(node);
 
             string value = node.Value;
-            byte[] bytes = Convert.FromHexString(value);
+            FieldType type = (FieldType)Enum.Parse(typeof(FieldType), node.Attribute("type").Value, true);
+            byte[] bytes = FieldTypeSerializers.Serialize(type, node.Value);
 
-            if (obj.Fields.ContainsKey(id))
+            if (!obj.Fields.TryAdd(id, bytes))
             {
                 //Delete field if value is empty
                 if (string.IsNullOrWhiteSpace(value))
@@ -126,10 +127,6 @@ namespace Dunia2.MergeBinaryObject
 
                 //Replace value in field
                 obj.Fields[id] = bytes;
-            }
-            else
-            {
-                obj.Fields.Add(id, bytes);
             }
         }
 
@@ -166,7 +163,7 @@ namespace Dunia2.MergeBinaryObject
 
         private BinaryObject Traverse(BinaryObject obj, List<string> depth, bool moddedUid, int depthCountThreshold = 2)
         {
-            if (depth.Count() < depthCountThreshold)
+            if (depth.Count < depthCountThreshold)
             {
                 return obj;
             }
