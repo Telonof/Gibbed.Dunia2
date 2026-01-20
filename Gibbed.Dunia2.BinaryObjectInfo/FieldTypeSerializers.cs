@@ -39,6 +39,11 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
         {
             switch (fieldType)
             {
+                case FieldType.BinHex:
+                {
+                    return Convert.FromHexString(text);
+                }
+
                 case FieldType.Boolean:
                 {
                     bool value;
