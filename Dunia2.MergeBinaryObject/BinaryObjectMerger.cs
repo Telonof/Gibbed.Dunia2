@@ -57,7 +57,7 @@ namespace Dunia2.MergeBinaryObject
 
                 if (obj == null)
                 {
-                    Console.WriteLine("Couldn't find BinaryObject, skipping command.");
+                    Console.WriteLine("BinaryObject not found or deleted, skipping command.");
                     continue;
                 }
 
@@ -108,7 +108,16 @@ namespace Dunia2.MergeBinaryObject
         private void EditField(XElement node, BinaryObject obj)
         {
             if (node.Attribute("hash") == null && node.Attribute("name") == null)
+            {
+                Console.WriteLine($"Couldn't find a hash or name attribute in {node}.");
                 return;
+            }
+
+            if (node.Attribute("type") == null)
+            {
+                Console.WriteLine($"Couldn't find a type attribute in {node}.");
+                return;
+            }
 
             uint id = GetFieldHash(node);
 
@@ -164,41 +173,31 @@ namespace Dunia2.MergeBinaryObject
         private BinaryObject Traverse(BinaryObject obj, List<string> depth, bool moddedUid, int depthCountThreshold = 2)
         {
             if (depth.Count < depthCountThreshold)
-            {
                 return obj;
-            }
 
             //Rid of child we need at the moment then recursively get through until we have our target
             if (!int.TryParse(depth.First(), out int index))
-            {
                 throw new FormatException("Bad depth value, is it formatted correctly?");
-            }
+
             depth.RemoveAt(0);
 
             if (obj == null || (moddedUid && index >= obj.Children.Count))
-            {
-                Console.WriteLine("Another mod deleted the object this was trying to edit, cancelling command.");
                 return null;
-            }
 
-            //If original instead, grab the last child, if it's index is less then it's also a goner.
-            if (index >= obj.Children.Count && obj.Children.Last().ChildIndex < index)
-            {
-                Console.WriteLine("Another mod deleted the object this was trying to edit, cancelling command.");
+            //If original instead, grab the last child, if it's index is less or no childs were found then it's also a goner.
+            if (index >= obj.Children.Count && (obj.Children.Count == 0 || obj.Children.Last().ChildIndex < index))
                 return null;
-            }
 
             //If the childIndex does not match that means this depth has been modified, find the original childIndex if possible.
             if (!moddedUid && (index >= obj.Children.Count || obj.Children[index].ChildIndex != index))
             {
                 BinaryObject foundChild = obj.Children.FirstOrDefault(child => child.ChildIndex == index);
                 if (foundChild == null)
-                {
-                    Console.WriteLine("Couldn't find depth, cancelling command.");
                     return null;
-                }
+
                 index = obj.Children.IndexOf(foundChild);
             }
+
             return Traverse(obj.Children[index], depth, moddedUid);
         }
 
