@@ -50,7 +50,8 @@ namespace Gibbed.Dunia2.FileFormats
             var endian = Endian.Little;
             using (var data = new MemoryStream())
             {
-                uint totalObjectCount = 0, totalValueCount = 0;
+                //We need to account for root as an object from what FCB files are saying in their headers.
+                uint totalObjectCount = 1, totalValueCount = 0;
 
                 this.Root.Serialize(data,ref totalObjectCount,
                                     ref totalValueCount,
