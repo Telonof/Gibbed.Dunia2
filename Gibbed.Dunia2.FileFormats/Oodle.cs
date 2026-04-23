@@ -36,9 +36,9 @@ namespace Gibbed.Dunia2.FileFormats
         public static int Compress(byte[] inputBytes, int inputCount, ref byte[] outputBytes)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return Linux64.OodleLZ_Compress(8, inputBytes, inputCount, outputBytes, 4, 0, 0, 0, 0, 0);
+                return Linux64.OodleLZ_Compress(11, inputBytes, inputCount, outputBytes, 4, 0, 0, 0, 0, 0);
 
-            return Windows64.OodleLZ_Compress(8, inputBytes, inputCount, outputBytes, 4, 0, 0, 0, 0,0);
+            return Windows64.OodleLZ_Compress(8, inputBytes, inputCount, outputBytes, 4, 0, 0, 0, 0, 0);
         }
     }
 }
