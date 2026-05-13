@@ -32,7 +32,7 @@ using Gibbed.Dunia2.FileFormats;
 
 namespace Gibbed.Dunia2.ConvertBinaryObject
 {
-    internal static class Exporting
+    public static class Exporting
     {
         public static void Export(ObjectFileDefinition objectFileDef,
                                   string outputPath,
