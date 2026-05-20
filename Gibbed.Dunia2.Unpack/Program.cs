@@ -160,7 +160,7 @@ namespace Gibbed.Dunia2.Unpack
                             string entryName = hashes[entry.NameHash];
                             if (entryName == null)
                             {
-                                entryName = entry.NameHash.ToString("X8");
+                                entryName = entry.NameHash.ToString("X16");
                             }
 
                             Console.WriteLine($"{entry.Offset.ToString("X16")} {entry.CompressedSize.ToString().PadLeft(paddingLength)} {entryName}");
@@ -410,7 +410,7 @@ namespace Gibbed.Dunia2.Unpack
                     extension = tuple != null ? tuple.Item2 : null;
                 }
 
-                entryName = entry.NameHash.ToString(fat.Version >= 9 ? "X16" : "X8");
+                entryName = entry.NameHash.ToString(fat.Version >= 5 ? "X16" : "X8");
 
                 if (string.IsNullOrEmpty(extension) == false)
                 {

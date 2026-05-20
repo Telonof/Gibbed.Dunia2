@@ -77,7 +77,7 @@ internal class Program
         foreach (var entry in fat.Entries)
         {
             //Convert hash to little endian format
-            string foundHash = entry.NameHash.ToString("X8");
+            string foundHash = entry.NameHash.ToString("X16");
             while (foundHash.Length < 16)
                 foundHash = "0" + foundHash;
 

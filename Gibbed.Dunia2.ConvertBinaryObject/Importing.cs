@@ -32,7 +32,7 @@ using Gibbed.Dunia2.FileFormats;
 
 namespace Gibbed.Dunia2.ConvertBinaryObject
 {
-    internal class Importing
+    public class Importing
     {
         private readonly InfoManager _InfoManager;
 
