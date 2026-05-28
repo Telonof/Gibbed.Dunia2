@@ -152,6 +152,16 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 {
                     return "Array32";
                 }
+
+                case FieldType.Vector8:
+                {
+                        return "Vector8";
+                }
+
+                case FieldType.Matrix4:
+                    {
+                        return "Matrix4";
+                    }
             }
 
             throw new NotSupportedException();
