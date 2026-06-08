@@ -108,6 +108,11 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                     return "String";
                 }
 
+                case FieldType.String16:
+                {
+                    return "String16";
+                }
+
                 case FieldType.Enum:
                 {
                     return "Enum";

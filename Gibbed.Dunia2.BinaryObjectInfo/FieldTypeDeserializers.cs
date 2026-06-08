@@ -245,6 +245,19 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                     return Encoding.UTF8.GetString(data, offset, length);
                 }
 
+                case FieldType.String16:
+                {
+                    if (HasLeft(data, offset, count, 2) == false)
+                        throw new FormatException("field type String16 requires at least 2 bytes.");
+
+                    if (data[data.Length - 1] != 0)
+                        throw new FormatException("invalid trailing byte value for field type String16");
+
+                    read = data.Length;
+
+                    return Encoding.Unicode.GetString(data, offset, read - 2);
+                }
+
                 case FieldType.Enum:
                 {
                     if (HasLeft(data, offset, count, 4) == false)
@@ -495,6 +508,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                                                          value.W.ToString(CultureInfo.InvariantCulture));
                     }
 
+                case FieldType.String16:
                 case FieldType.String:
                     {
                         var value = Deserialize<string>(fieldType, data, 0, count, out read);
@@ -622,6 +636,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 case FieldType.Vector3:
                 case FieldType.Vector4:
                 case FieldType.String:
+                case FieldType.String16:
                 case FieldType.Hash32:
                 case FieldType.Hash64:
                 case FieldType.Id32:

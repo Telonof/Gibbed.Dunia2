@@ -43,6 +43,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
         Vector4,
         Vector8,
         String,
+        String16,
         Enum,
         Hash32,
         Hash64,

@@ -257,6 +257,13 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                     return data;
                 }
 
+                case FieldType.String16:
+                {
+                    var data = Encoding.Unicode.GetBytes(text);
+                    Array.Resize(ref data, data.Length + 2);
+                    return data;
+                }
+
                 case FieldType.Hash32:
                 {
                     uint value;
@@ -404,6 +411,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 case FieldType.Vector3:
                 case FieldType.Vector4:
                 case FieldType.String:
+                case FieldType.String16:
                 case FieldType.Vector8:
                 case FieldType.Matrix4:
                 {
