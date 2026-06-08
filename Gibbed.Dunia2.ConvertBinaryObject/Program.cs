@@ -171,8 +171,7 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                 }
                 else
                 {
-                    outputPath = Path.ChangeExtension(inputPath, null);
-                    outputPath += "_converted.fcb";
+                    outputPath = Path.ChangeExtension(inputPath, ".bin");
                 }
 
                 var basePath = Path.ChangeExtension(inputPath, null);
@@ -182,6 +181,7 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                 basePath = Path.GetFullPath(basePath);
 
                 var bof = new BinaryObjectFile();
+                bool material = inputPath.EndsWith(".material.xml");
 
                 using (var input = File.OpenRead(inputPath))
                 {
@@ -231,7 +231,7 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
 
                 using (var output = File.Create(outputPath))
                 {
-                    bof.Serialize(output);
+                    bof.Serialize(output, material);
                 }
             }
             else if (mode == Mode.Export)
@@ -250,7 +250,6 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                 else
                 {
                     outputPath = Path.ChangeExtension(inputPath, null);
-                    outputPath += "_converted";
                     basePath = outputPath;
                     outputPath += ".xml";
                 }
