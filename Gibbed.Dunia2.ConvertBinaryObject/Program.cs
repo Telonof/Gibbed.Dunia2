@@ -84,7 +84,8 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
 
                 if (extension == ".fcb" ||
                     extension == ".obj" ||
-                    extension == ".lib")
+                    extension == ".lib" ||
+                    extension == ".bin")
                 {
                     mode = Mode.Export;
                 }
