@@ -7,6 +7,15 @@ namespace Dunia2.MergeBinaryObject
 {
     public class BinaryObjectMerger
     {
+
+        private readonly HashSet<string> _loadedMods;
+
+
+        public BinaryObjectMerger(HashSet<string> loadedMods)
+        {
+            _loadedMods = loadedMods;
+        }
+
         public BinaryObject Merge(BinaryObject root, XDocument file)
         {
             foreach (XElement node in file.Root.Elements())
@@ -44,6 +53,9 @@ namespace Dunia2.MergeBinaryObject
                 }
 
                 Console.Write($"Attempting to modify {fullDepth}... ");
+
+                if (!ParseValidMods(node))
+                    continue;
 
                 //Find parent BinaryObject (used for deleting objects)
                 BinaryObject parent = Traverse(root, depth, checkForModdedUids);
@@ -218,6 +230,41 @@ namespace Dunia2.MergeBinaryObject
             }
 
             return 0;
+        }
+
+        private bool ParseValidMods(XElement element)
+        {
+            //check for blacklisted mods
+            XAttribute attribute = element.Attribute("blacklisted_mods");
+            if (attribute != null && !string.IsNullOrWhiteSpace(attribute.Value))
+            {
+                string[] mods = attribute.Value.Split();
+                foreach (string mod in mods)
+                {
+                    if (_loadedMods.Contains(mod))
+                    {
+                        Console.WriteLine($"Blacklisted mod {mod} found, skipping...");
+                        return false;
+                    }
+                }
+            }
+
+            //now required mods
+            attribute = element.Attribute("required_mods");
+            if (attribute != null && !string.IsNullOrWhiteSpace(attribute.Value))
+            {
+                string[] mods = attribute.Value.Split();
+                foreach (string mod in mods)
+                {
+                    if (!_loadedMods.Contains(mod))
+                    {
+                        Console.WriteLine($"Required mod {mod} not found, skipping...");
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
