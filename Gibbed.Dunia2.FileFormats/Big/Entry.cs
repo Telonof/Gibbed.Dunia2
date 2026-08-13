@@ -30,6 +30,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
         public long Offset;
         public CompressionScheme CompressionScheme;
         public uint author;
+        public uint Flag;
 
         public override string ToString()
         {

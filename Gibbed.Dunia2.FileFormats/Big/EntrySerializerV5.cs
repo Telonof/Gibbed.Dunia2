@@ -48,6 +48,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
             var c = entry.NameHash;
 
             var d = entry.CompressedSize;
+            d |= entry.Flag << 30;
 
             var e = (uint)((entry.Offset & 0X00000003FFFFFFFCL) >> 2);
 
@@ -75,6 +76,7 @@ namespace Gibbed.Dunia2.FileFormats.Big
 
             entry.NameHash = b;
 
+            entry.Flag = c >> 30;
             entry.CompressedSize = (uint)((c & 0x3FFFFFFFul) >> 0);
 
             entry.Offset = (long)d << 2;
