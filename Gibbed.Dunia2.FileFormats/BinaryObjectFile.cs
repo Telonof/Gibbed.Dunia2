@@ -29,13 +29,16 @@ namespace Gibbed.Dunia2.FileFormats
 {
     public class BinaryObjectFile
     {
-        public const uint Signature = 0x4643626E; // 'FCbn' FarCry Binary N???
+        public const uint Signature = 0x4643626E; // 'FCbn' FarCry BiNary
+        private const uint MatSignature = 5062996; // MAT
 
         public ushort Version = 2;
         public HeaderFlags Flags = HeaderFlags.None;
         public BinaryObject Root;
 
-        public void Serialize(Stream output)
+        private readonly byte[] Padding = new byte[16];
+
+        public void Serialize(Stream output, bool material = false)
         {
             if (this.Version != 2)
             {
@@ -59,6 +62,12 @@ namespace Gibbed.Dunia2.FileFormats
                 data.Flush();
                 data.Position = 0;
 
+                if (material)
+                {
+                    output.WriteValueU32(MatSignature, endian);
+                    output.WriteBytes(Padding);
+                }
+
                 output.WriteValueU32(Signature, endian);
                 output.WriteValueU16(this.Version, endian);
                 output.WriteValueEnum<HeaderFlags>(this.Flags, endian);
@@ -71,6 +80,13 @@ namespace Gibbed.Dunia2.FileFormats
         public void Deserialize(Stream input)
         {
             var magic = input.ReadValueU32(Endian.Little);
+
+            if (magic == MatSignature) // MAT
+            {
+                input.Seek(20, SeekOrigin.Begin);
+                magic = input.ReadValueU32(Endian.Little);
+            }
+
             if (magic != Signature) // FCbn
             {
                 throw new FormatException("invalid header magic");

@@ -41,7 +41,9 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
         Vector2,
         Vector3,
         Vector4,
+        Vector8,
         String,
+        String16,
         Enum,
         Hash32,
         Hash64,
@@ -51,5 +53,6 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
         ComputeHash32,
         ComputeHash64,
         Array32,
+        Matrix4,
     }
 }

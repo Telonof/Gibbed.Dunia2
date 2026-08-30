@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.XPath;
+using Gibbed.Dunia2.BinaryObjectInfo;
 using Gibbed.Dunia2.FileFormats;
 using NDesk.Options;
 
@@ -84,7 +85,8 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
 
                 if (extension == ".fcb" ||
                     extension == ".obj" ||
-                    extension == ".lib")
+                    extension == ".lib" ||
+                    extension == ".bin")
                 {
                     mode = Mode.Export;
                 }
@@ -170,8 +172,7 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                 }
                 else
                 {
-                    outputPath = Path.ChangeExtension(inputPath, null);
-                    outputPath += "_converted.fcb";
+                    outputPath = Path.ChangeExtension(inputPath, ".bin");
                 }
 
                 var basePath = Path.ChangeExtension(inputPath, null);
@@ -181,6 +182,7 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                 basePath = Path.GetFullPath(basePath);
 
                 var bof = new BinaryObjectFile();
+                bool material = inputPath.EndsWith(".material.xml");
 
                 using (var input = File.OpenRead(inputPath))
                 {
@@ -230,12 +232,12 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
 
                 using (var output = File.Create(outputPath))
                 {
-                    bof.Serialize(output);
+                    bof.Serialize(output, material);
                 }
             }
             else if (mode == Mode.Export)
             {
-                HashFinder.Load(manager.ActiveProject.ListsPath);
+                HashFinder.Load(manager);
 
                 string inputPath = extras[0];
                 string outputPath;
@@ -249,7 +251,6 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
                 else
                 {
                     outputPath = Path.ChangeExtension(inputPath, null);
-                    outputPath += "_converted";
                     basePath = outputPath;
                     outputPath += ".xml";
                 }

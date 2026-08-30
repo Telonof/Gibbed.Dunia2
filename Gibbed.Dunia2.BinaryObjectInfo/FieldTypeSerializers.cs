@@ -257,6 +257,13 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                     return data;
                 }
 
+                case FieldType.String16:
+                {
+                    var data = Encoding.Unicode.GetBytes(text);
+                    Array.Resize(ref data, data.Length + 2);
+                    return data;
+                }
+
                 case FieldType.Hash32:
                 {
                     uint value;
@@ -290,6 +297,9 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 case FieldType.Id64:
                 {
                     ulong value;
+                    if (text.Equals("-1"))
+                        return BitConverter.GetBytes(-1);
+                    
                     if (TryParseUInt64(text, out value) == false)
                     {
                         throw new FormatException();
@@ -307,6 +317,54 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 {
                     var value = CRC64.Hash(text);
                     return BitConverter.GetBytes(value);
+                }
+
+                case FieldType.Vector8:
+                {
+                        var parts = text.Split(',');
+                        if (parts.Length != 8)
+                            throw new FormatException("field type Vector8 requires 8 float values delimited by a comma.");
+
+                        float[] vectorValues = new float[parts.Length];
+
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            if (!TryParseFloat32(parts[i], out vectorValues[i]))
+                                throw new FormatException();
+                        }
+
+                        var data = new byte[32];
+
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            Array.Copy(BitConverter.GetBytes(vectorValues[i]), 0, data, i * 4, 4);
+                        }
+
+                        return data;
+                }
+
+                case FieldType.Matrix4:
+                {
+                        var parts = text.Split(',');
+                        if (parts.Length != 16)
+                            throw new FormatException("field type Vector8 requires 16 float values delimited by a comma.");
+
+                        float[] vectorValues = new float[parts.Length];
+
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            if (!TryParseFloat32(parts[i], out vectorValues[i]))
+                                throw new FormatException();
+                        }
+
+                        var data = new byte[64];
+
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            Array.Copy(BitConverter.GetBytes(vectorValues[i]), 0, data, i * 4, 4);
+                        }
+
+                        return data;
                 }
             }
 
@@ -353,6 +411,9 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 case FieldType.Vector3:
                 case FieldType.Vector4:
                 case FieldType.String:
+                case FieldType.String16:
+                case FieldType.Vector8:
+                case FieldType.Matrix4:
                 {
                     return Serialize(fieldType, nav.Value);
                 }
