@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.XPath;
+using Gibbed.Dunia2.BinaryObjectInfo;
 using Gibbed.Dunia2.FileFormats;
 using NDesk.Options;
 
@@ -236,7 +237,7 @@ namespace Gibbed.Dunia2.ConvertBinaryObject
             }
             else if (mode == Mode.Export)
             {
-                HashFinder.Load(manager.ActiveProject.ListsPath);
+                HashFinder.Load(manager);
 
                 string inputPath = extras[0];
                 string outputPath;
