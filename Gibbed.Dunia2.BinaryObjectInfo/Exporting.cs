@@ -611,10 +611,10 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
             FileHashes = manager.LoadListsFileNames(5);
             string listsPath = manager.ActiveProject.ListsPath;
             
-            if (!Directory.Exists(Path.Combine(listsPath, "hashes")))
+            if (!Directory.Exists(Path.Combine(listsPath, "Hashes")))
                 return;
 
-            foreach (var file in Directory.GetFiles(Path.Combine(listsPath, "hashes"), "*.json", SearchOption.AllDirectories))
+            foreach (var file in Directory.GetFiles(Path.Combine(listsPath, "Hashes"), "*.json", SearchOption.AllDirectories))
             {
                 if (Path.GetFileName(file).StartsWith("Hashes."))
                 {
