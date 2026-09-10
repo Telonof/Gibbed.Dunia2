@@ -315,7 +315,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
 
                 case FieldType.ComputeHash64:
                 {
-                    var value = CRC64.Hash(text);
+                    var value = CRC64.Hash(text, true);
                     return BitConverter.GetBytes(value);
                 }
 
