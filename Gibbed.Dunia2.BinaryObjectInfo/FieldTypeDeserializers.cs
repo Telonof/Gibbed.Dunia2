@@ -507,6 +507,16 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                                                          value.Z.ToString(CultureInfo.InvariantCulture),
                                                          value.W.ToString(CultureInfo.InvariantCulture));
                     }
+                
+                case FieldType.Color4:
+                    {
+                        var value = Deserialize<Vector4>(fieldType, data, 0, count, out read);
+                        return string.Format("{0},{1},{2},{3}",
+                            ((int)(value.X * 255)).ToString(CultureInfo.InvariantCulture),
+                            ((int)(value.Y * 255)).ToString(CultureInfo.InvariantCulture),
+                            ((int)(value.Z * 255)).ToString(CultureInfo.InvariantCulture),
+                            ((int)(value.W * 255)).ToString(CultureInfo.InvariantCulture));
+                    }
 
                 case FieldType.String16:
                 case FieldType.String:
@@ -643,6 +653,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 case FieldType.Id64:
                 case FieldType.Vector8:
                 case FieldType.Matrix4:
+                case FieldType.Color4:
                     {
                         Deserialize(writer, fieldDef.Type, data, 0, data.Length, out read);
                         break;

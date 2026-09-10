@@ -54,5 +54,6 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
         ComputeHash64,
         Array32,
         Matrix4,
+        Color4
     }
 }

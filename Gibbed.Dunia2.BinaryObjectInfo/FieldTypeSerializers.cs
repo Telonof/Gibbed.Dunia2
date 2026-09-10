@@ -249,6 +249,34 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                     Array.Copy(BitConverter.GetBytes(w), 0, data, 12, 4);
                     return data;
                 }
+                
+                case FieldType.Color4:
+                {
+                    var parts = text.Split(',');
+                    if (parts.Length != 4)
+                        throw new FormatException("field type Color4 requires 4 uint values delimited by a comma.");
+
+                    uint r, g, b, a;
+
+                    if (!TryParseUInt32(parts[0], out r) && r > 255)
+                        throw new FormatException();
+                    
+                    if (!TryParseUInt32(parts[1], out g) && g > 255)
+                        throw new FormatException();
+                    
+                    if (!TryParseUInt32(parts[2], out b) && b > 255)
+                        throw new FormatException();
+
+                    if (!TryParseUInt32(parts[3], out a) && a > 255)
+                        throw new FormatException();
+                    
+                    var data = new byte[16];
+                    Array.Copy(BitConverter.GetBytes((float)r / 255), 0, data, 0, 4);
+                    Array.Copy(BitConverter.GetBytes((float)g / 255), 0, data, 4, 4);
+                    Array.Copy(BitConverter.GetBytes((float)b / 255), 0, data, 8, 4);
+                    Array.Copy(BitConverter.GetBytes((float)a / 255), 0, data, 12, 4);
+                    return data;
+                }
 
                 case FieldType.String:
                 {
@@ -414,6 +442,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 case FieldType.String16:
                 case FieldType.Vector8:
                 case FieldType.Matrix4:
+                case FieldType.Color4:
                 {
                     return Serialize(fieldType, nav.Value);
                 }

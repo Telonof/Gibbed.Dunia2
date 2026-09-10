@@ -163,10 +163,15 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                         return "Vector8";
                 }
 
-                case FieldType.Matrix4:
-                    {
-                        return "Matrix4";
-                    }
+                case FieldType.Matrix4: 
+                {
+                    return "Matrix4";
+                }
+                
+                case FieldType.Color4: 
+                {
+                    return "Color4";
+                }
             }
 
             throw new NotSupportedException();
