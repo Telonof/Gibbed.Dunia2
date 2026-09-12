@@ -91,8 +91,9 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
 
                 FieldType fieldType;
                 var fieldTypeName = fields.Current.GetAttribute("type", "");
-                if (Enum.TryParse(fieldTypeName, true, out fieldType) == false)
+                if (!Enum.TryParse(fieldTypeName, true, out fieldType))
                 {
+                    Console.WriteLine($"{fieldTypeName} is not a valid field type.");
                     throw new InvalidOperationException();
                 }
 
@@ -107,7 +108,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 }
 
                 var fieldDef = objectDef != null ? objectDef.GetFieldDefinition(fieldNameHash, chain) : null;
-                var data = FieldTypeSerializers.Serialize(fieldDef, fieldType, arrayFieldType, fields.Current);
+                var data = FieldTypeSerializers.Serialize(fieldDef, fieldType, arrayFieldType, fields.Current) ?? throw new InvalidOperationException();
                 node.Fields.Add(fieldNameHash, data);
             }
 

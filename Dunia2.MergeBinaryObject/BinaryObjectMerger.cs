@@ -81,7 +81,6 @@ namespace Dunia2.MergeBinaryObject
                         break;
                     case "edit":
                         EditObject(node, obj);
-                        Console.WriteLine("Success");
                         break;
                     case "editall":
                         ScanAllFields(node, obj);
@@ -109,33 +108,47 @@ namespace Dunia2.MergeBinaryObject
             }
         }
 
+        /* Edit commands can have multiple fields edited into it's depth. So we read the whole object for every single field to merge into the file. */
         private void EditObject(XElement xmlData, BinaryObject obj)
         {
+            bool fullSuccess = true;
+
             foreach (XElement node in xmlData.Elements())
             {
-                EditField(node, obj);
+                if (!EditField(node, obj))
+                    fullSuccess = false;
             }
+
+            if (fullSuccess)
+                Console.WriteLine("Success");
         }
 
-        private void EditField(XElement node, BinaryObject obj)
+        private bool EditField(XElement node, BinaryObject obj)
         {
             if (node.Attribute("hash") == null && node.Attribute("name") == null)
             {
                 Console.WriteLine($"Couldn't find a hash or name attribute in {node}.");
-                return;
+                return false;
             }
 
             if (node.Attribute("type") == null)
             {
                 Console.WriteLine($"Couldn't find a type attribute in {node}.");
-                return;
+                return false;
             }
 
             uint id = GetFieldHash(node);
 
             string value = node.Value;
-            FieldType type = (FieldType)Enum.Parse(typeof(FieldType), node.Attribute("type").Value, true);
-            byte[] bytes = FieldTypeSerializers.Serialize(type, node.Value);
+            if (!Enum.TryParse(node.Attribute("type").Value, true, out FieldType type))
+            {
+                Console.WriteLine($"Unknown field type: {node.Attribute("type").Value}");
+                return false;
+            }
+
+            byte[]? bytes = FieldTypeSerializers.Serialize(type, node.Value);
+            if (bytes == null)
+                return false;
 
             if (!obj.Fields.TryAdd(id, bytes))
             {
@@ -143,12 +156,14 @@ namespace Dunia2.MergeBinaryObject
                 if (string.IsNullOrWhiteSpace(value))
                 {
                     obj.Fields.Remove(id);
-                    return;
+                    return true;
                 }
 
                 //Replace value in field
                 obj.Fields[id] = bytes;
             }
+
+            return true;
         }
 
         //When it comes to editing all fields only fields that exist should work.

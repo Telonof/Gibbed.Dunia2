@@ -40,315 +40,323 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
             switch (fieldType)
             {
                 case FieldType.BinHex:
-                {
-                    return Convert.FromHexString(text);
-                }
+                    {
+                        try
+                        {
+                            return Convert.FromHexString(text);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine($"{text} is not a valid hexadecimal string.");
+                            return null;
+                        }
+                    }
 
                 case FieldType.Boolean:
-                {
-                    bool value;
-                    if (bool.TryParse(text, out value) == false)
                     {
-                        throw new FormatException();
+                        bool value;
+                        if (bool.TryParse(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return new[] { (byte)(value == true ? 1 : 0) };
                     }
-                    return new[] { (byte)(value == true ? 1 : 0) };
-                }
 
                 case FieldType.UInt8:
-                {
-                    byte value;
-                    if (TryParseUInt8(text, out value) == false)
                     {
-                        throw new FormatException();
+                        byte value;
+                        if (TryParseUInt8(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return new[] { value };
                     }
-                    return new[] { value };
-                }
 
                 case FieldType.Int8:
-                {
-                    sbyte value;
-                    if (TryParseInt8(text, out value) == false)
                     {
-                        throw new FormatException();
+                        sbyte value;
+                        if (TryParseInt8(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return new[] { (byte)value };
                     }
-                    return new[] { (byte)value };
-                }
 
                 case FieldType.UInt16:
-                {
-                    ushort value;
-                    if (TryParseUInt16(text, out value) == false)
                     {
-                        throw new FormatException();
+                        ushort value;
+                        if (TryParseUInt16(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Int16:
-                {
-                    short value;
-                    if (TryParseInt16(text, out value) == false)
                     {
-                        throw new FormatException();
+                        short value;
+                        if (TryParseInt16(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.UInt32:
-                {
-                    uint value;
-                    if (TryParseUInt32(text, out value) == false)
                     {
-                        throw new FormatException();
+                        uint value;
+                        if (TryParseUInt32(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Int32:
-                {
-                    int value;
-                    if (TryParseInt32(text, out value) == false)
                     {
-                        throw new FormatException();
+                        int value;
+                        if (TryParseInt32(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.UInt64:
-                {
-                    ulong value;
-                    if (TryParseUInt64(text, out value) == false)
                     {
-                        throw new FormatException();
+                        ulong value;
+                        if (TryParseUInt64(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Int64:
-                {
-                    long value;
-                    if (TryParseInt64(text, out value) == false)
                     {
-                        throw new FormatException();
+                        long value;
+                        if (TryParseInt64(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Float32:
-                {
-                    float value;
-                    if (TryParseFloat32(text, out value) == false)
                     {
-                        throw new FormatException();
+                        float value;
+                        if (TryParseFloat32(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Float64:
-                {
-                    double value;
-                    if (TryParseFloat64(text, out value) == false)
                     {
-                        throw new FormatException();
+                        double value;
+                        if (TryParseFloat64(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Vector2:
-                {
-                    var parts = text.Split(',');
-                    if (parts.Length != 2)
                     {
-                        throw new FormatException("field type Vector2 requires 2 float values delimited by a comma");
+                        var parts = text.Split(',');
+                        if (parts.Length != 2)
+                        {
+                            throw new FormatException("field type Vector2 requires 2 float values delimited by a comma");
+                        }
+
+                        float x, y;
+
+                        if (TryParseFloat32(parts[0], out x) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        if (TryParseFloat32(parts[1], out y) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        var data = new byte[8];
+                        Array.Copy(BitConverter.GetBytes(x), 0, data, 0, 4);
+                        Array.Copy(BitConverter.GetBytes(y), 0, data, 4, 4);
+                        return data;
                     }
-
-                    float x, y;
-
-                    if (TryParseFloat32(parts[0], out x) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    if (TryParseFloat32(parts[1], out y) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    var data = new byte[8];
-                    Array.Copy(BitConverter.GetBytes(x), 0, data, 0, 4);
-                    Array.Copy(BitConverter.GetBytes(y), 0, data, 4, 4);
-                    return data;
-                }
 
                 case FieldType.Vector3:
-                {
-                    var parts = text.Split(',');
-                    if (parts.Length != 3)
                     {
-                        throw new FormatException("field type Vector3 requires 3 float values delimited by a comma");
+                        var parts = text.Split(',');
+                        if (parts.Length != 3)
+                        {
+                            throw new FormatException("field type Vector3 requires 3 float values delimited by a comma");
+                        }
+
+                        float x, y, z;
+
+                        if (TryParseFloat32(parts[0], out x) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        if (TryParseFloat32(parts[1], out y) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        if (TryParseFloat32(parts[2], out z) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        var data = new byte[12];
+                        Array.Copy(BitConverter.GetBytes(x), 0, data, 0, 4);
+                        Array.Copy(BitConverter.GetBytes(y), 0, data, 4, 4);
+                        Array.Copy(BitConverter.GetBytes(z), 0, data, 8, 4);
+                        return data;
                     }
-
-                    float x, y, z;
-
-                    if (TryParseFloat32(parts[0], out x) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    if (TryParseFloat32(parts[1], out y) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    if (TryParseFloat32(parts[2], out z) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    var data = new byte[12];
-                    Array.Copy(BitConverter.GetBytes(x), 0, data, 0, 4);
-                    Array.Copy(BitConverter.GetBytes(y), 0, data, 4, 4);
-                    Array.Copy(BitConverter.GetBytes(z), 0, data, 8, 4);
-                    return data;
-                }
 
                 case FieldType.Vector4:
-                {
-                    var parts = text.Split(',');
-                    if (parts.Length != 4)
                     {
-                        throw new FormatException("field type Vector4 requires 4 float values delimited by a comma");
+                        var parts = text.Split(',');
+                        if (parts.Length != 4)
+                        {
+                            throw new FormatException("field type Vector4 requires 4 float values delimited by a comma");
+                        }
+
+                        float x, y, z, w;
+
+                        if (TryParseFloat32(parts[0], out x) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        if (TryParseFloat32(parts[1], out y) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        if (TryParseFloat32(parts[2], out z) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        if (TryParseFloat32(parts[3], out w) == false)
+                        {
+                            throw new FormatException();
+                        }
+
+                        var data = new byte[16];
+                        Array.Copy(BitConverter.GetBytes(x), 0, data, 0, 4);
+                        Array.Copy(BitConverter.GetBytes(y), 0, data, 4, 4);
+                        Array.Copy(BitConverter.GetBytes(z), 0, data, 8, 4);
+                        Array.Copy(BitConverter.GetBytes(w), 0, data, 12, 4);
+                        return data;
                     }
 
-                    float x, y, z, w;
-
-                    if (TryParseFloat32(parts[0], out x) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    if (TryParseFloat32(parts[1], out y) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    if (TryParseFloat32(parts[2], out z) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    if (TryParseFloat32(parts[3], out w) == false)
-                    {
-                        throw new FormatException();
-                    }
-
-                    var data = new byte[16];
-                    Array.Copy(BitConverter.GetBytes(x), 0, data, 0, 4);
-                    Array.Copy(BitConverter.GetBytes(y), 0, data, 4, 4);
-                    Array.Copy(BitConverter.GetBytes(z), 0, data, 8, 4);
-                    Array.Copy(BitConverter.GetBytes(w), 0, data, 12, 4);
-                    return data;
-                }
-                
                 case FieldType.Color4:
-                {
-                    var parts = text.Split(',');
-                    if (parts.Length != 4)
-                        throw new FormatException("field type Color4 requires 4 uint values delimited by a comma.");
+                    {
+                        var parts = text.Split(',');
+                        if (parts.Length != 4)
+                            throw new FormatException("field type Color4 requires 4 uint values delimited by a comma.");
 
-                    uint r, g, b, a;
+                        uint r, g, b, a;
 
-                    if (!TryParseUInt32(parts[0], out r) && r > 255)
-                        throw new FormatException();
-                    
-                    if (!TryParseUInt32(parts[1], out g) && g > 255)
-                        throw new FormatException();
-                    
-                    if (!TryParseUInt32(parts[2], out b) && b > 255)
-                        throw new FormatException();
+                        if (!TryParseUInt32(parts[0], out r) && r > 255)
+                            throw new FormatException("red cannot be negative or over 255.");
 
-                    if (!TryParseUInt32(parts[3], out a) && a > 255)
-                        throw new FormatException();
-                    
-                    var data = new byte[16];
-                    Array.Copy(BitConverter.GetBytes((float)r / 255), 0, data, 0, 4);
-                    Array.Copy(BitConverter.GetBytes((float)g / 255), 0, data, 4, 4);
-                    Array.Copy(BitConverter.GetBytes((float)b / 255), 0, data, 8, 4);
-                    Array.Copy(BitConverter.GetBytes((float)a / 255), 0, data, 12, 4);
-                    return data;
-                }
+                        if (!TryParseUInt32(parts[1], out g) && g > 255)
+                            throw new FormatException("green cannot be negative or over 255.");
+
+                        if (!TryParseUInt32(parts[2], out b) && b > 255)
+                            throw new FormatException("blue cannot be negative or over 255.");
+
+                        if (!TryParseUInt32(parts[3], out a) && a > 255)
+                            throw new FormatException("alpha cannot be negative or over 255.");
+
+                        var data = new byte[16];
+                        Array.Copy(BitConverter.GetBytes((float)r / 255), 0, data, 0, 4);
+                        Array.Copy(BitConverter.GetBytes((float)g / 255), 0, data, 4, 4);
+                        Array.Copy(BitConverter.GetBytes((float)b / 255), 0, data, 8, 4);
+                        Array.Copy(BitConverter.GetBytes((float)a / 255), 0, data, 12, 4);
+                        return data;
+                    }
 
                 case FieldType.String:
-                {
-                    var data = Encoding.UTF8.GetBytes(text);
-                    Array.Resize(ref data, data.Length + 1);
-                    return data;
-                }
+                    {
+                        var data = Encoding.UTF8.GetBytes(text);
+                        Array.Resize(ref data, data.Length + 1);
+                        return data;
+                    }
 
                 case FieldType.String16:
-                {
-                    var data = Encoding.Unicode.GetBytes(text);
-                    Array.Resize(ref data, data.Length + 2);
-                    return data;
-                }
+                    {
+                        var data = Encoding.Unicode.GetBytes(text);
+                        Array.Resize(ref data, data.Length + 2);
+                        return data;
+                    }
 
                 case FieldType.Hash32:
-                {
-                    uint value;
-                    if (TryParseHash32(text, out value) == false)
                     {
-                        throw new FormatException();
+                        uint value;
+                        if (TryParseHash32(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Hash64:
-                {
-                    ulong value;
-                    if (TryParseHash64(text, out value) == false)
                     {
-                        throw new FormatException();
+                        ulong value;
+                        if (TryParseHash64(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Id32:
-                {
-                    uint value;
-                    if (TryParseUInt32(text, out value) == false)
                     {
-                        throw new FormatException();
+                        uint value;
+                        if (TryParseUInt32(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.Id64:
-                {
-                    ulong value;
-                    if (text.Equals("-1"))
-                        return BitConverter.GetBytes(-1);
-                    
-                    if (TryParseUInt64(text, out value) == false)
                     {
-                        throw new FormatException();
+                        ulong value;
+                        if (text.Equals("-1"))
+                            return BitConverter.GetBytes(-1);
+
+                        if (TryParseUInt64(text, out value) == false)
+                        {
+                            throw new FormatException();
+                        }
+                        return BitConverter.GetBytes(value);
                     }
-                    return BitConverter.GetBytes(value);
-                }
 
                 case FieldType.ComputeHash32:
-                {
-                    var value = CRC32.Hash(text);
-                    return BitConverter.GetBytes(value);
-                }
+                    {
+                        var value = CRC32.Hash(text);
+                        return BitConverter.GetBytes(value);
+                    }
 
                 case FieldType.ComputeHash64:
-                {
-                    var value = CRC64.Hash(text, true);
-                    return BitConverter.GetBytes(value);
-                }
+                    {
+                        var value = CRC64.Hash(text, true);
+                        return BitConverter.GetBytes(value);
+                    }
 
                 case FieldType.Vector8:
-                {
+                    {
                         var parts = text.Split(',');
                         if (parts.Length != 8)
                             throw new FormatException("field type Vector8 requires 8 float values delimited by a comma.");
@@ -369,10 +377,10 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                         }
 
                         return data;
-                }
+                    }
 
                 case FieldType.Matrix4:
-                {
+                    {
                         var parts = text.Split(',');
                         if (parts.Length != 16)
                             throw new FormatException("field type Vector8 requires 16 float values delimited by a comma.");
@@ -393,7 +401,7 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                         }
 
                         return data;
-                }
+                    }
             }
 
             throw new NotSupportedException("unsupported field type");
@@ -407,23 +415,6 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
             switch (fieldType)
             {
                 case FieldType.BinHex:
-                {
-                    using (var reader = new XmlTextReader(new StringReader(nav.OuterXml)))
-                    {
-                        reader.MoveToContent();
-                        var data = new byte[0];
-                        int read = 0;
-                        do
-                        {
-                            Array.Resize(ref data, data.Length + 4096);
-                            read += reader.ReadBinHex(data, read, 4096);
-                        }
-                        while (reader.EOF == false);
-                        Array.Resize(ref data, read);
-                        return data;
-                    }
-                }
-
                 case FieldType.Boolean:
                 case FieldType.UInt8:
                 case FieldType.Int8:
@@ -443,78 +434,78 @@ namespace Gibbed.Dunia2.BinaryObjectInfo
                 case FieldType.Vector8:
                 case FieldType.Matrix4:
                 case FieldType.Color4:
-                {
-                    return Serialize(fieldType, nav.Value);
-                }
+                    {
+                        return Serialize(fieldType, nav.Value);
+                    }
 
                 case FieldType.Enum:
-                {
-                    var enumDef = fieldDef != null ? fieldDef.Enum : null;
-
-                    var text = nav.Value;
-                    var elementDef = enumDef != null
-                                         ? enumDef.Elements.FirstOrDefault(ed => ed.Name == text)
-                                         : null;
-
-                    int value;
-                    if (elementDef != null)
                     {
-                        value = elementDef.Value;
-                    }
-                    else
-                    {
-                        if (TryParseInt32(nav.Value, out value) == false)
+                        var enumDef = fieldDef != null ? fieldDef.Enum : null;
+
+                        var text = nav.Value;
+                        var elementDef = enumDef != null
+                                             ? enumDef.Elements.FirstOrDefault(ed => ed.Name == text)
+                                             : null;
+
+                        int value;
+                        if (elementDef != null)
                         {
-                            if (enumDef == null)
+                            value = elementDef.Value;
+                        }
+                        else
+                        {
+                            if (TryParseInt32(nav.Value, out value) == false)
                             {
+                                if (enumDef == null)
+                                {
+                                    throw new FormatException(
+                                        string.Format(
+                                            "could not parse enum value '{0}' as an Int32 (perhaps enum definition is missing?)",
+                                            nav.Value));
+                                }
+
                                 throw new FormatException(
                                     string.Format(
-                                        "could not parse enum value '{0}' as an Int32 (perhaps enum definition is missing?)",
-                                        nav.Value));
+                                        "could not parse enum value '{0}' as an Int32 (perhaps enum element definition is missing from {1}?)",
+                                        nav.Value,
+                                        enumDef.Name));
                             }
-
-                            throw new FormatException(
-                                string.Format(
-                                    "could not parse enum value '{0}' as an Int32 (perhaps enum element definition is missing from {1}?)",
-                                    nav.Value,
-                                    enumDef.Name));
                         }
-                    }
 
-                    return BitConverter.GetBytes(value);
-                }
+                        return BitConverter.GetBytes(value);
+                    }
 
                 case FieldType.Hash32:
                 case FieldType.Hash64:
                 case FieldType.Id32:
                 case FieldType.Id64:
-                {
-                    return Serialize(fieldType, nav.Value);
-                }
+                    {
+                        return Serialize(fieldType, nav.Value);
+                    }
 
                 case FieldType.ComputeHash32:
-                {
-                    return Serialize(fieldType, nav.Value);
-                }
+                    {
+                        return Serialize(fieldType, nav.Value);
+                    }
 
                 case FieldType.ComputeHash64:
-                {
-                    return Serialize(fieldType, nav.Value);
-                }
+                    {
+                        return Serialize(fieldType, nav.Value);
+                    }
 
                 case FieldType.Array32:
-                {
-                    using (var temp = new MemoryStream())
                     {
-                        var items = nav.Select("item");
-                        temp.WriteValueS32(items.Count);
-                        while (items.MoveNext() == true)
+                        using (var temp = new MemoryStream())
                         {
-                            temp.WriteBytes(Serialize(arrayFieldType, items.Current.Value));
+                            var items = nav.Select("item");
+                            temp.WriteValueS32(items.Count);
+                            while (items.MoveNext() == true)
+                            {
+                                temp.WriteBytes(Serialize(arrayFieldType, items.Current.Value));
+                            }
+                            return temp.ToArray();
                         }
-                        return temp.ToArray();
                     }
-                }
             }
 
             throw new NotSupportedException("unsupported field type");
